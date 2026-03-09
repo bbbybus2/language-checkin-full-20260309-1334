@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>English Training Studio｜每日语言打卡站</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%236f8dff%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2331d08c%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2756%27%20height%3D%2756%27%20rx%3D%2714%27%20fill%3D%27url%28%23g%29%27/%3E%3Cpath%20d%3D%27M20%2034a12%2012%200%200%201%2024%200v10a4%204%200%200%201-8%200V34a4%204%200%201%200-8%200v10a4%204%200%200%201-8%200V34z%27%20fill%3D%27white%27%20opacity%3D%27.96%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
   <style>
     :root {
       --bg:#0e1118; --bg2:#111624; --card:#171c2a; --card2:#1d2434; --line:#2b3448;
@@ -19,10 +20,14 @@
     *{box-sizing:border-box}
     body{margin:0;font-family:"Nunito","Noto Sans CJK SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(900px 520px at 10% -8%, color-mix(in oklab, var(--accent) 28%, transparent) 0%, transparent 55%),radial-gradient(760px 460px at 90% 0%, color-mix(in oklab, var(--accent2) 24%, transparent) 0%, transparent 52%),linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);min-height:100vh}
     .wrap{max-width:1060px;margin:24px auto 40px;padding:0 16px}
-    .hero{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(140deg, color-mix(in oklab, var(--accent) 20%, var(--card)) 0%, var(--card) 55%);box-shadow:var(--shadow)}
-    .title{margin:0;font-size:30px;font-family:"Merriweather","Noto Serif CJK SC","Songti SC",serif;letter-spacing:.01em}.sub{margin:8px 0 0;color:var(--muted);font-size:14px}
-    .chips{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-    .chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:color-mix(in oklab,var(--card2) 82%, transparent);color:var(--muted);transition:transform .18s ease,border-color .18s ease}
+    .hero{padding:24px 24px 20px;border:1px solid color-mix(in oklab,var(--line) 88%, #fff);border-radius:20px;background:linear-gradient(145deg, color-mix(in oklab, var(--accent) 11%, var(--card)) 0%, color-mix(in oklab, var(--card) 90%, #fff) 62%);box-shadow:0 8px 26px rgba(25,36,56,.12)}
+    .title{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;line-height:1.2}
+    .title-en{font-size:40px;font-family:"Merriweather","Noto Serif CJK SC","Songti SC",serif;font-weight:500;letter-spacing:.005em;color:color-mix(in oklab,var(--text) 92%, #fff)}
+    .title-dot{font-size:28px;color:color-mix(in oklab,var(--muted) 72%, var(--text))}
+    .title-cn{font-size:38px;font-family:"Noto Serif CJK SC","Songti SC",serif;font-weight:500;letter-spacing:.01em;color:color-mix(in oklab,var(--text) 90%, #fff)}
+    .sub{margin:10px 0 0;color:color-mix(in oklab,var(--muted) 86%, var(--text));font-size:13px;line-height:1.6}
+    .chips{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid color-mix(in oklab,var(--line) 82%, #fff);background:color-mix(in oklab,var(--card2) 72%, #fff);color:color-mix(in oklab,var(--muted) 88%, var(--text));transition:transform .18s ease,border-color .18s ease}
     @media (hover:hover){.chip:hover{transform:translateY(-1px) scale(1.04);border-color:color-mix(in oklab,var(--accent2) 50%,var(--line))}}
 
     .top-links{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -46,12 +51,13 @@
     .member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
     .member-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card2)}
 
-    .listen{display:grid;grid-template-columns:270px 1fr;gap:14px}
-    .thumb{width:100%;aspect-ratio:16/9;border-radius:12px;border:1px solid var(--line);object-fit:cover;background:var(--card2)}
+    .listen{display:grid;grid-template-columns:1fr;gap:14px}
+    .listen-player-wrap{border:1px solid var(--line);border-radius:12px;background:var(--card2);padding:8px}
+    .listen-player{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000}
 
     .cards-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:4px}
-    .sentence{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card2);min-height:136px}
-    .sentence .en{font-weight:700;line-height:1.35}.sentence .zh{font-size:13px;color:var(--muted);margin-top:4px}
+    .sentence{border:1px solid var(--line);border-radius:12px;padding:14px 12px;background:var(--card2);min-height:136px;display:flex;flex-direction:column;justify-content:center}
+    .sentence .en{font-weight:700;line-height:1.35}.sentence .zh{font-size:13px;color:var(--muted);margin-top:6px}
 
     .speak-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:12px}
     .mini-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card2)}
@@ -74,14 +80,14 @@
     .btn.success{background:linear-gradient(135deg,color-mix(in oklab,var(--ok) 34%, var(--card2)),var(--card2));border-color:color-mix(in oklab, var(--ok) 44%, var(--line));font-weight:700}
     .badge{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px}
 
-    @media (max-width:900px){ .listen{grid-template-columns:1fr;} .speak-grid{grid-template-columns:1fr;} .cards-track{grid-template-columns:repeat(2,minmax(0,1fr));} .task-list{grid-template-columns:1fr;} }
-    @media (max-width:640px){ .cards-track{grid-template-columns:1fr;} .theme-btn{margin-left:0} }
+    @media (max-width:900px){ .listen{grid-template-columns:1fr;} .speak-grid{grid-template-columns:1fr;} .cards-track{grid-template-columns:repeat(2,minmax(0,1fr));} .task-list{grid-template-columns:1fr;} .title-en{font-size:34px} .title-cn{font-size:32px} }
+    @media (max-width:640px){ .cards-track{grid-template-columns:1fr;} .theme-btn{margin-left:0} .hero{padding:18px 16px} .title-en{font-size:28px} .title-cn{font-size:26px} .title-dot{display:none} }
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hero">
-    <h1 class="title">English Training Studio · 语言训练打卡站</h1>
+    <h1 class="title"><span class="title-en">English Training Studio</span><span class="title-dot">·</span><span class="title-cn">语言训练打卡站</span></h1>
     <p class="sub">当前成员：<span id="displayName">{{ phone }}</span> ｜ 日期：<span id="day"></span> ｜ 素材每日 00:10 自动更新</p>
     <div class="chips">
       <span class="chip">Listening Input</span>
@@ -124,12 +130,15 @@
   <section class="section">
     <h2>今日听力素材（Listening Input）</h2>
     <div class="listen">
-      <img id="thumb" class="thumb" src="" alt="thumbnail" />
+      <div class="listen-player-wrap" id="playerWrap">
+        <iframe id="listenPlayer" class="listen-player" src="" title="今日听力播放器" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
       <div>
         <div id="listenTitle" style="font-size:16px;font-weight:700"></div>
         <div id="listenDesc" class="muted" style="margin-top:6px;line-height:1.5"></div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <a id="listenLink" class="btn primary" target="_blank" rel="noopener">打开素材</a>
+          <button id="fullscreenBtn" class="btn primary">全屏播放</button>
+          <a id="listenLink" class="btn" target="_blank" rel="noopener">在YouTube打开</a>
           <button id="refreshBtn" class="btn">手动刷新全套素材</button>
         </div>
       </div>
@@ -273,6 +282,89 @@ function renderModules(){
   renderRecordings();
 }
 
+
+function extractYoutubeId(url){
+  if (!url) return '';
+  try{
+    const u = new URL(url);
+    if (u.hostname.includes('youtu.be')) return u.pathname.replace('/','');
+    if (u.hostname.includes('youtube.com')) return u.searchParams.get('v') || '';
+  }catch(e){}
+  return '';
+}
+
+function buildPlayableUrl(url, startAt = 0){
+  const id = extractYoutubeId(url);
+  if (id) {
+    const startPart = startAt > 0 ? `&start=${Math.floor(startAt)}` : '';
+    return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1${startPart}`;
+  }
+  return url;
+}
+
+let ytPlayer = null;
+let ytProgressTimer = null;
+let currentVideoId = '';
+let youtubeApiPromise = null;
+
+function progressKey(videoId){ return `yt_progress_${videoId}`; }
+
+function ensureYoutubeApi(){
+  if (window.YT && window.YT.Player) return Promise.resolve();
+  if (youtubeApiPromise) return youtubeApiPromise;
+  youtubeApiPromise = new Promise((resolve) => {
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      if (typeof prev === 'function') prev();
+      resolve();
+    };
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  });
+  return youtubeApiPromise;
+}
+
+function savePlaybackProgress(){
+  if (!ytPlayer || !currentVideoId || typeof ytPlayer.getCurrentTime !== 'function') return;
+  try{
+    const t = Math.floor(ytPlayer.getCurrentTime() || 0);
+    if (t > 0) localStorage.setItem(progressKey(currentVideoId), String(t));
+  }catch(e){}
+}
+
+async function setupYoutubeProgress(videoId){
+  await ensureYoutubeApi();
+  if (ytPlayer && currentVideoId === videoId) return;
+
+  if (ytPlayer && ytPlayer.destroy) {
+    try { ytPlayer.destroy(); } catch(e) {}
+    ytPlayer = null;
+  }
+
+  currentVideoId = videoId;
+  ytPlayer = new YT.Player('listenPlayer', {
+    events: {
+      onReady: () => {
+        // no-op
+      },
+      onStateChange: (event) => {
+        // 1=playing,2=paused,0=ended
+        if (event.data === 1) {
+          if (ytProgressTimer) clearInterval(ytProgressTimer);
+          ytProgressTimer = setInterval(savePlaybackProgress, 5000);
+        } else if (event.data === 2 || event.data === 0) {
+          savePlaybackProgress();
+          if (ytProgressTimer) { clearInterval(ytProgressTimer); ytProgressTimer = null; }
+          if (event.data === 0 && currentVideoId) {
+            localStorage.removeItem(progressKey(currentVideoId));
+          }
+        }
+      }
+    }
+  });
+}
+
 function render() {
   document.getElementById('day').textContent = state.day;
   const user = state.current_user || {};
@@ -281,7 +373,29 @@ function render() {
   document.getElementById('listenTitle').textContent = state.listening.title || '今日素材';
   document.getElementById('listenDesc').textContent = state.listening.desc || '';
   document.getElementById('listenLink').href = state.listening.url || '#';
-  document.getElementById('thumb').src = state.listening.thumb || 'https://placehold.co/1280x720/0f1115/8ea0cc?text=Listening+Material';
+  const listenUrl = state.listening.url || '#';
+  const listenPlayer = document.getElementById('listenPlayer');
+  const videoId = extractYoutubeId(listenUrl);
+  const loadedVideoId = listenPlayer.dataset.videoId || '';
+
+  if (videoId) {
+    // 同一视频不重置 src，避免任务按钮触发 render 后中断播放。
+    if (loadedVideoId !== videoId) {
+      const saved = Number(localStorage.getItem(progressKey(videoId)) || 0);
+      const desiredSrc = buildPlayableUrl(listenUrl, saved > 3 ? saved : 0);
+      listenPlayer.src = desiredSrc;
+      listenPlayer.dataset.currentSrc = desiredSrc;
+      listenPlayer.dataset.videoId = videoId;
+      setupYoutubeProgress(videoId);
+    }
+  } else {
+    const desiredSrc = buildPlayableUrl(listenUrl);
+    if (listenPlayer.dataset.currentSrc !== desiredSrc) {
+      listenPlayer.src = desiredSrc;
+      listenPlayer.dataset.currentSrc = desiredSrc;
+      listenPlayer.dataset.videoId = '';
+    }
+  }
 
   renderModules();
   loadMembersProgress(state.day);
@@ -458,11 +572,20 @@ document.getElementById('backTodayBtn').onclick = backToday;
 document.getElementById('startRecBtn').onclick = startRecording;
 document.getElementById('stopRecBtn').onclick = stopRecording;
 document.getElementById('saveNicknameBtn').onclick = saveNickname;
+document.getElementById('fullscreenBtn').onclick = async () => {
+  const wrap = document.getElementById('playerWrap');
+  if (!document.fullscreenElement) {
+    if (wrap.requestFullscreen) await wrap.requestFullscreen();
+  } else {
+    if (document.exitFullscreen) await document.exitFullscreen();
+  }
+};
 document.getElementById('themeBtn').onclick = () => {
   const current = document.documentElement.getAttribute('data-theme') || 'dark';
   applyTheme(current === 'dark' ? 'light' : 'dark');
 };
 
+window.addEventListener('beforeunload', savePlaybackProgress);
 initTheme();
 loadHistoryList().then(render);
 </script>
