@@ -385,64 +385,39 @@ function buildPlayableUrl(url, startAt = 0){
 let ytPlayer = null;
 let ytProgressTimer = null;
 let currentVideoId = '';
-let youtubeApiPromise = null;
 
-function progressKey(videoId){ return `yt_progress_${videoId}`; }
-
-function ensureYoutubeApi(){
-  if (window.YT && window.YT.Player) return Promise.resolve();
-  if (youtubeApiPromise) return youtubeApiPromise;
-  youtubeApiPromise = new Promise((resolve) => {
-    const prev = window.onYouTubeIframeAPIReady;
-    window.onYouTubeIframeAPIReady = () => {
-      if (typeof prev === 'function') prev();
-      resolve();
-    };
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-  });
-  return youtubeApiPromise;
+function clearProgressTimer(){
+  if (ytProgressTimer) {
+    clearInterval(ytProgressTimer);
+    ytProgressTimer = null;
+  }
 }
 
 function savePlaybackProgress(){
-  if (!ytPlayer || !currentVideoId || typeof ytPlayer.getCurrentTime !== 'function') return;
-  try{
-    const t = Math.floor(ytPlayer.getCurrentTime() || 0);
-    if (t > 0) localStorage.setItem(progressKey(currentVideoId), String(t));
-  }catch(e){}
+  // 播放进度记忆功能已临时停用，优先保证切换日期时播放器稳定可见。
 }
 
-async function setupYoutubeProgress(videoId){
-  await ensureYoutubeApi();
-  if (ytPlayer && currentVideoId === videoId) return;
+function destroyYoutubePlayer(){
+  // 不再主动 destroy iframe，避免切换往期/今日时把 DOM 一起删掉。
+  clearProgressTimer();
+  ytPlayer = null;
+  currentVideoId = '';
+}
 
-  if (ytPlayer && ytPlayer.destroy) {
-    try { ytPlayer.destroy(); } catch(e) {}
-    ytPlayer = null;
+function syncYoutubePlayer(listenUrl){
+  const listenPlayer = document.getElementById('listenPlayer');
+  if (!listenPlayer) return;
+
+  const videoId = extractYoutubeId(listenUrl);
+  const desiredSrc = buildPlayableUrl(listenUrl);
+
+  if (listenPlayer.dataset.currentSrc !== desiredSrc) {
+    listenPlayer.src = desiredSrc;
+    listenPlayer.dataset.currentSrc = desiredSrc;
   }
 
-  currentVideoId = videoId;
-  ytPlayer = new YT.Player('listenPlayer', {
-    events: {
-      onReady: () => {
-        // no-op
-      },
-      onStateChange: (event) => {
-        // 1=playing,2=paused,0=ended
-        if (event.data === 1) {
-          if (ytProgressTimer) clearInterval(ytProgressTimer);
-          ytProgressTimer = setInterval(savePlaybackProgress, 5000);
-        } else if (event.data === 2 || event.data === 0) {
-          savePlaybackProgress();
-          if (ytProgressTimer) { clearInterval(ytProgressTimer); ytProgressTimer = null; }
-          if (event.data === 0 && currentVideoId) {
-            localStorage.removeItem(progressKey(currentVideoId));
-          }
-        }
-      }
-    }
-  });
+  listenPlayer.dataset.videoId = videoId || '';
+  currentVideoId = videoId || '';
 }
 
 function render() {
@@ -452,30 +427,9 @@ function render() {
   document.getElementById('listenTitle').textContent = state.listening.title || '今日素材';
   document.getElementById('listenDesc').textContent = state.listening.desc || '';
   document.getElementById('materialVersion').textContent = `素材版本时间：${state.material_updated_at || '未知'}`;
-  document.getElementById('listenLink').href = state.listening.url || '#';
   const listenUrl = state.listening.url || '#';
-  const listenPlayer = document.getElementById('listenPlayer');
-  const videoId = extractYoutubeId(listenUrl);
-  const loadedVideoId = listenPlayer.dataset.videoId || '';
-
-  if (videoId) {
-    // 同一视频不重置 src，避免任务按钮触发 render 后中断播放。
-    if (loadedVideoId !== videoId) {
-      const saved = Number(localStorage.getItem(progressKey(videoId)) || 0);
-      const desiredSrc = buildPlayableUrl(listenUrl, saved > 3 ? saved : 0);
-      listenPlayer.src = desiredSrc;
-      listenPlayer.dataset.currentSrc = desiredSrc;
-      listenPlayer.dataset.videoId = videoId;
-      setupYoutubeProgress(videoId);
-    }
-  } else {
-    const desiredSrc = buildPlayableUrl(listenUrl);
-    if (listenPlayer.dataset.currentSrc !== desiredSrc) {
-      listenPlayer.src = desiredSrc;
-      listenPlayer.dataset.currentSrc = desiredSrc;
-      listenPlayer.dataset.videoId = '';
-    }
-  }
+  document.getElementById('listenLink').href = listenUrl;
+  syncYoutubePlayer(listenUrl);
 
   renderModules();
   loadMembersProgress(state.day);
