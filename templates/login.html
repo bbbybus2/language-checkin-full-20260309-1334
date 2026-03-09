@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>登录 - 语言训练打卡站</title>
+  <style>
+    :root{
+      --bg:#0c1222;
+      --bg2:#121a31;
+      --card:#161f39;
+      --panel:#1d2745;
+      --line:#2f3d63;
+      --text:#ecf2ff;
+      --muted:#95a7cf;
+      --accent:#5f8cff;
+      --accent2:#39c7a2;
+      --danger:#ff8ea1;
+      --shadow:0 24px 60px rgba(4,10,25,.42);
+    }
+    html[data-theme="light"]{
+      --bg:#f7f0e1;
+      --bg2:#f5ead6;
+      --card:#fff9ee;
+      --panel:#fff4df;
+      --line:#ead9ba;
+      --text:#2d261a;
+      --muted:#7a6c53;
+      --accent:#6e66ff;
+      --accent2:#199f7f;
+      --danger:#c45b58;
+      --shadow:0 18px 38px rgba(114,92,59,.16);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      font-family:"Nunito","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(1000px 580px at 8% -12%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 60%),
+        radial-gradient(760px 440px at 96% 0%, color-mix(in oklab, var(--accent2) 24%, transparent), transparent 58%),
+        linear-gradient(180deg,var(--bg2),var(--bg));
+      padding:18px;
+    }
+    .layout{
+      width:min(980px,100%);
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    .learn-panel,.card{
+      border:1px solid var(--line);
+      background:linear-gradient(165deg, color-mix(in oklab,var(--panel) 70%, var(--card)) 0%, var(--card) 100%);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      transition:transform .22s ease, box-shadow .22s ease, border-color .2s ease;
+    }
+    @media (hover:hover){
+      .learn-panel:hover,.card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 28px 66px rgba(4,10,25,.5);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}
+    }
+    .learn-panel{padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+    .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);font-weight:800}
+    .learn-panel h2{margin:8px 0 0;font-size:28px;line-height:1.2}
+    .learn-panel p{margin:10px 0 0;color:var(--muted);line-height:1.6}
+
+    .pill-row{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;background:color-mix(in oklab, var(--card) 82%, transparent);transition:transform .18s ease,border-color .18s ease}
+    @media (hover:hover){.pill:hover{transform:translateY(-1px) scale(1.04);border-color:color-mix(in oklab,var(--accent2) 52%,var(--line))}}
+
+    .mini-grid{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .mini{padding:10px;border-radius:12px;border:1px solid var(--line);background:color-mix(in oklab, var(--card) 86%, transparent)}
+    .mini .k{font-size:11px;color:var(--muted)}
+    .mini .v{margin-top:4px;font-weight:700}
+
+    .card{padding:22px}
+    h1{margin:0;font-size:26px;font-family:"Merriweather","Noto Serif CJK SC","Songti SC",serif;letter-spacing:.01em}
+    .sub{color:var(--muted);font-size:13px;line-height:1.5;margin-top:8px}
+
+    .field{margin-top:14px}
+    .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    input{
+      width:100%;
+      padding:12px 13px;
+      border:1px solid var(--line);
+      background:color-mix(in oklab,var(--panel) 70%, transparent);
+      color:var(--text);
+      border-radius:12px;
+      font-size:15px;
+    }
+    input:focus{outline:none;border-color:color-mix(in oklab,var(--accent) 60%, var(--line));box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%, transparent)}
+
+    .btn{
+      width:100%;
+      margin-top:14px;
+      padding:12px;
+      border:0;
+      border-radius:12px;
+      background:linear-gradient(130deg,var(--accent),color-mix(in oklab,var(--accent2) 55%, var(--accent)));
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.02em;
+      cursor:pointer;
+    }
+    .btn:hover{filter:brightness(1.05)}
+
+    .err{margin-top:10px;color:var(--danger);font-size:13px}
+    .theme{margin-top:12px;display:flex;justify-content:flex-end}
+    .theme button{width:auto;margin:0;padding:8px 11px;border-radius:10px;background:transparent;color:var(--text);border:1px solid var(--line);cursor:pointer}
+
+    @media (max-width:880px){
+      .layout{grid-template-columns:1fr}
+      .learn-panel{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <section class="learn-panel">
+      <div>
+        <div class="eyebrow">English training zone</div>
+        <h2>每天 60 分钟，
+          让英语从“会看”变成“会说”。</h2>
+        <p>听力输入 + 句型卡 + 强制开口 + 对话实战 + 错误复盘。每天完成 5 项，建立稳定输出肌肉记忆。</p>
+        <div class="pill-row">
+          <span class="pill">Vocabulary</span>
+          <span class="pill">Shadowing</span>
+          <span class="pill">Speaking Drill</span>
+          <span class="pill">Daily Check-in</span>
+        </div>
+      </div>
+      <div class="mini-grid">
+        <div class="mini"><div class="k">Word of the day</div><div class="v">Consistency</div></div>
+        <div class="mini"><div class="k">Phrase</div><div class="v">Keep it going.</div></div>
+        <div class="mini"><div class="k">Goal</div><div class="v">Speak for 2+ mins</div></div>
+        <div class="mini"><div class="k">Mindset</div><div class="v">Small steps, daily wins</div></div>
+      </div>
+    </section>
+
+    <form class="card" method="post" action="/login">
+      <h1>手机号登录</h1>
+      <div class="sub">输入白名单手机号进入训练面板。<br/>欢迎回来，继续今天的 English mission ✨</div>
+
+      <div class="field">
+        <div class="label">Phone Number</div>
+        <input name="phone" placeholder="例如：13800138000" required />
+      </div>
+
+      <button class="btn" type="submit">进入训练台</button>
+      {% if error %}<div class="err">{{ error }}</div>{% endif %}
+      <div class="theme"><button id="themeBtn" type="button">🌙 暗色模式</button></div>
+    </form>
+  </div>
+<script>
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('lc_theme', theme);
+  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌞 明亮模式' : '🌙 暗色模式';
+}
+const t = localStorage.getItem('lc_theme') || 'dark'; applyTheme(t);
+document.getElementById('themeBtn').onclick = ()=> applyTheme((document.documentElement.getAttribute('data-theme')||'dark')==='dark'?'light':'dark');
+</script>
+</body>
+</html>

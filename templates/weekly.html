@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weekly Progress - 语言训练打卡站</title>
+  <style>
+    :root{--bg:#0e1118;--bg2:#111624;--card:#171c2a;--line:#2b3448;--text:#f5f7ff;--muted:#9aa8c3;--ok:#28c76f;--warn:#ffb020;--shadow:0 10px 30px rgba(3,8,20,.35);--accent:#6f8dff}
+    html[data-theme="light"]{--bg:#f8f4ea;--bg2:#f6efe1;--card:#fffaf0;--line:#eadfc9;--text:#2a2419;--muted:#7d7059;--ok:#2a9b63;--warn:#b47d1a;--shadow:0 8px 20px rgba(119,93,49,.12);--accent:#7f6bff}
+    body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--text);font-family:"Nunito","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}
+    .wrap{max-width:980px;margin:24px auto;padding:0 16px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--text);background:var(--card);cursor:pointer}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    @media (hover:hover){.card:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 16px 34px rgba(3,8,20,.42);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}}
+    .v{font-size:30px;font-weight:800}.k{color:var(--muted);font-size:13px}
+    .section{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+    .day{padding:10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in oklab,var(--card) 86%, transparent);transition:transform .2s ease,border-color .2s ease,background .2s ease}
+    .day.ok{border-color:color-mix(in oklab,var(--ok) 60%,var(--line));background:color-mix(in oklab,var(--ok) 12%,var(--card))}
+    @media (hover:hover){.day:hover{transform:translateY(-2px) scale(1.02);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}}
+    .heat{display:grid;gap:8px}.row{display:grid;grid-template-columns:56px repeat(5,1fr);gap:6px;align-items:center}
+    .cell{height:24px;border-radius:6px;border:1px solid var(--line);background:color-mix(in oklab,var(--card) 80%, #202634)}
+    .cell.on{background:color-mix(in oklab,var(--ok) 35%, var(--card));border-color:color-mix(in oklab,var(--ok) 55%, var(--line))}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+    @media (max-width:900px){.cards{grid-template-columns:1fr}.week{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:52px repeat(5,1fr)}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1 style="margin:0;font-family:'Merriweather','Noto Serif CJK SC','Songti SC',serif">Weekly Progress · 周报</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn" href="/">返回今日</a>
+      <button id="themeBtn" class="btn">🌙 暗色模式</button>
+      <a class="btn" href="/logout">退出</a>
+    </div>
+  </div>
+
+  <div style="color:var(--muted)">周期：{{ stats.monday }} ~ {{ stats.sunday }}</div>
+
+  <div class="cards">
+    <div class="card"><div class="v">{{ stats.checkin_rate }}%</div><div class="k">Check-in Rate｜本周打卡率</div></div>
+    <div class="card"><div class="v">{{ 7 - stats.missed_days }}</div><div class="k">Completed Days｜已打卡天数</div></div>
+    <div class="card"><div class="v">{{ stats.missed_days }}</div><div class="k">Missed Days｜漏打卡天数</div></div>
+  </div>
+
+  <div class="section">
+    <h3>Daily Overview｜每日打卡概览</h3>
+    <div class="week">
+      {% for d in stats.days %}
+      <div class="day {% if d.checked_in %}ok{% endif %}">
+        <div style="font-weight:700">{{ d.weekday }}</div>
+        <div style="font-size:12px;color:var(--muted)">{{ d.day }}</div>
+        <div style="margin-top:6px">任务完成：{{ d.done_count }}/5</div>
+        <div style="margin-top:2px;color:{% if d.checked_in %}#7af2ac{% else %}var(--warn){% endif %}">{% if d.checked_in %}已打卡{% else %}未打卡{% endif %}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Task Heatmap（Weekly）｜任务完成热力图</h3>
+    <div class="legend">每行一天，每列一个任务；绿色=已完成</div>
+    <div class="heat" style="margin-top:10px">
+      {% for r in stats.heatmap %}
+      <div class="row">
+        <div style="font-size:12px;color:var(--muted)">{{ r.weekday }}</div>
+        {% for c in r.cells %}
+        <div class="cell {% if c.done %}on{% endif %}" title="{{ c.task }}"></div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+function applyTheme(theme){
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('lc_theme', theme);
+  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌞 明亮模式' : '🌙 暗色模式';
+}
+const t = localStorage.getItem('lc_theme') || 'dark'; applyTheme(t);
+document.getElementById('themeBtn').onclick = ()=> applyTheme((document.documentElement.getAttribute('data-theme')||'dark')==='dark'?'light':'dark');
+</script>
+</body>
+</html>

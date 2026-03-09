@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Training Studio｜每日语言打卡站</title>
+  <style>
+    :root {
+      --bg:#0e1118; --bg2:#111624; --card:#171c2a; --card2:#1d2434; --line:#2b3448;
+      --text:#f3f6ff; --muted:#9aa8c3; --accent:#6f8dff; --accent2:#31d08c; --danger:#ff6b81;
+      --shadow:0 10px 30px rgba(3,8,20,.35); --ok:#28c76f;
+    }
+    html[data-theme="light"]{
+      --bg:#f8f4ea; --bg2:#f6efe1; --card:#fffaf0; --card2:#fff6e8; --line:#eadfc9;
+      --text:#2a2419; --muted:#7d7059; --accent:#7f6bff; --accent2:#2f9b72; --danger:#c45b58;
+      --shadow:0 8px 20px rgba(119,93,49,.12); --ok:#2a9b63;
+    }
+
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Nunito","Noto Sans CJK SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:radial-gradient(900px 520px at 10% -8%, color-mix(in oklab, var(--accent) 28%, transparent) 0%, transparent 55%),radial-gradient(760px 460px at 90% 0%, color-mix(in oklab, var(--accent2) 24%, transparent) 0%, transparent 52%),linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);min-height:100vh}
+    .wrap{max-width:1060px;margin:24px auto 40px;padding:0 16px}
+    .hero{padding:22px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(140deg, color-mix(in oklab, var(--accent) 20%, var(--card)) 0%, var(--card) 55%);box-shadow:var(--shadow)}
+    .title{margin:0;font-size:30px;font-family:"Merriweather","Noto Serif CJK SC","Songti SC",serif;letter-spacing:.01em}.sub{margin:8px 0 0;color:var(--muted);font-size:14px}
+    .chips{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:color-mix(in oklab,var(--card2) 82%, transparent);color:var(--muted);transition:transform .18s ease,border-color .18s ease}
+    @media (hover:hover){.chip:hover{transform:translateY(-1px) scale(1.04);border-color:color-mix(in oklab,var(--accent2) 50%,var(--line))}}
+
+    .top-links{margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .top-links a,.btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;border:1px solid var(--line);background:var(--card2);color:var(--text);padding:9px 12px;border-radius:12px;cursor:pointer;transition:transform .16s ease, filter .16s ease, box-shadow .2s ease, border-color .2s ease}
+    .top-links a:hover,.btn:hover{transform:translateY(-1px) scale(1.02);filter:brightness(1.03);box-shadow:0 10px 20px rgba(6,12,30,.28);border-color:color-mix(in oklab,var(--accent) 44%,var(--line))}
+    .top-links a:active,.btn:active{transform:translateY(0) scale(.985)}
+    .weekly-btn{background:linear-gradient(135deg, color-mix(in oklab, var(--accent2) 32%, var(--card2)), color-mix(in oklab, var(--accent) 22%, var(--card2)));font-weight:700;border-color:color-mix(in oklab, var(--accent2) 40%, var(--line))}
+    .theme-btn{margin-left:auto}
+
+    .section{margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);box-shadow:var(--shadow)}
+    .section h2{margin:0 0 12px;font-size:18px}
+    .muted{color:var(--muted);font-size:13px}
+
+    .hero,.section,.member-card,.sentence,.mini-card,.task,.rec-item{transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease}
+    @media (hover:hover){
+      .hero:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(3,8,20,.42)}
+      .section:hover{transform:translateY(-3px) scale(1.004);box-shadow:0 16px 36px rgba(3,8,20,.42);border-color:color-mix(in oklab,var(--accent) 40%,var(--line))}
+      .member-card:hover,.sentence:hover,.mini-card:hover,.task:hover,.rec-item:hover{transform:translateY(-3px) scale(1.015);border-color:color-mix(in oklab,var(--accent2) 45%,var(--line))}
+    }
+
+    .member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+    .member-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card2)}
+
+    .listen{display:grid;grid-template-columns:270px 1fr;gap:14px}
+    .thumb{width:100%;aspect-ratio:16/9;border-radius:12px;border:1px solid var(--line);object-fit:cover;background:var(--card2)}
+
+    .cards-track{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:4px}
+    .sentence{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card2);min-height:136px}
+    .sentence .en{font-weight:700;line-height:1.35}.sentence .zh{font-size:13px;color:var(--muted);margin-top:4px}
+
+    .speak-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:12px}
+    .mini-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card2)}
+    ul{margin:8px 0 0 18px;padding:0} li{margin:4px 0}
+
+    .rec-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .rec-list{display:grid;gap:8px;margin-top:10px}
+    .rec-item{border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--card2)}
+    .rec-head{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:6px}
+    audio{width:100%}
+
+    .task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .task{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card2);min-height:64px}
+    .task.done{border-color:color-mix(in oklab,var(--ok) 65%,var(--line));background:color-mix(in oklab,var(--ok) 13%,var(--card2))}
+    .task-left{display:flex;align-items:center;gap:8px;min-width:0}
+    .task-time{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+    .task-title{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+    .btn.primary{background:linear-gradient(135deg,color-mix(in oklab,var(--accent) 28%, var(--card2)),var(--card2));border-color:color-mix(in oklab, var(--accent) 40%, var(--line));font-weight:700}
+    .btn.success{background:linear-gradient(135deg,color-mix(in oklab,var(--ok) 34%, var(--card2)),var(--card2));border-color:color-mix(in oklab, var(--ok) 44%, var(--line));font-weight:700}
+    .badge{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px}
+
+    @media (max-width:900px){ .listen{grid-template-columns:1fr;} .speak-grid{grid-template-columns:1fr;} .cards-track{grid-template-columns:repeat(2,minmax(0,1fr));} .task-list{grid-template-columns:1fr;} }
+    @media (max-width:640px){ .cards-track{grid-template-columns:1fr;} .theme-btn{margin-left:0} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1 class="title">English Training Studio · 语言训练打卡站</h1>
+    <p class="sub">当前成员：<span id="displayName">{{ phone }}</span> ｜ 日期：<span id="day"></span> ｜ 素材每日 00:10 自动更新</p>
+    <div class="chips">
+      <span class="chip">Listening Input</span>
+      <span class="chip">Sentence Cards</span>
+      <span class="chip">Speaking Drill</span>
+      <span class="chip">Daily Check-in</span>
+    </div>
+    <div class="top-links">
+      <a class="weekly-btn" href="/weekly">📊 周报总览</a>
+      <a href="/logout">退出登录</a>
+      <button id="themeBtn" class="btn theme-btn">🌙 暗色模式</button>
+    </div>
+  </div>
+
+
+  <section class="section">
+    <h2>个人设置</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="nicknameInput" class="btn" style="min-width:220px;text-align:left" placeholder="设置你的昵称（如：伟琪）" />
+      <button id="saveNicknameBtn" class="btn primary">保存昵称</button>
+      <span class="muted">保存后，成员列表和录音列表将显示昵称。</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>往期内容回顾</h2>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select id="historySelect" class="btn" style="min-width:260px"></select>
+      <button id="viewHistoryBtn" class="btn">查看往期</button>
+      <button id="backTodayBtn" class="btn">回到今天</button>
+      <span id="modeBadge" class="badge">今日模式</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>成员进度</h2>
+    <div id="membersBox" class="member-grid"></div>
+  </section>
+
+  <section class="section">
+    <h2>今日听力素材（Listening Input）</h2>
+    <div class="listen">
+      <img id="thumb" class="thumb" src="" alt="thumbnail" />
+      <div>
+        <div id="listenTitle" style="font-size:16px;font-weight:700"></div>
+        <div id="listenDesc" class="muted" style="margin-top:6px;line-height:1.5"></div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <a id="listenLink" class="btn primary" target="_blank" rel="noopener">打开素材</a>
+          <button id="refreshBtn" class="btn">手动刷新全套素材</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>句型卡练习（Sentence Cards · 9个高频句）</h2>
+    <div id="cardsTheme" class="muted" style="margin-bottom:8px"></div>
+    <div id="cardsList" class="cards-track"></div>
+  </section>
+
+  <section class="section">
+    <h2>强制开口（Speaking Drill · 2–3分钟录音）</h2>
+    <div class="speak-grid">
+      <div class="mini-card">
+        <div id="speakTopic" style="font-weight:700;font-size:16px"></div>
+        <div id="speakGoal" class="muted" style="margin-top:8px"></div>
+        <div style="margin-top:10px">建议结构：</div>
+        <ul id="speakStructure"></ul>
+      </div>
+      <div class="mini-card">
+        <div style="font-weight:700">必须包含表达</div>
+        <div id="mustUse" class="muted" style="margin-top:8px"></div>
+        <div style="margin-top:12px;font-weight:700">录音自检</div>
+        <ul id="selfCheck"></ul>
+      </div>
+    </div>
+
+    <div class="rec-controls">
+      <button id="startRecBtn" class="btn">🎙️ 开始录音</button>
+      <button id="stopRecBtn" class="btn" disabled>⏹️ 结束并保存</button>
+      <span id="recStatus" class="badge">未录音</span>
+    </div>
+    <div class="muted" style="margin-top:8px">说明：录音会保存到当日记录，往期回顾和成员都可查看。</div>
+
+    <div id="recordingsList" class="rec-list"></div>
+  </section>
+
+  <section class="section">
+    <h2>每日固定模板（Daily Mission · 60分钟）</h2>
+    <div id="tasks" class="task-list"></div>
+    <div style="margin-top:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button id="checkinBtn" class="btn success" disabled>完成全部后打卡</button>
+      <span id="status" class="badge">未打卡</span>
+    </div>
+    <div class="muted" style="margin-top:10px">规则：未完成全部任务，点击打卡会失败并提示。</div>
+  </section>
+</div>
+
+<script>
+const TODAY_STR = "{{ today_str }}";
+let state = {{ data|tojson }};
+let isHistoryMode = false;
+
+let mediaRecorder = null;
+let recChunks = [];
+let recStartAt = 0;
+
+function applyTheme(theme){
+  const root = document.documentElement;
+  root.setAttribute('data-theme', theme);
+  localStorage.setItem('lc_theme', theme);
+  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌞 明亮模式' : '🌙 暗色模式';
+}
+
+function initTheme(){
+  const saved = localStorage.getItem('lc_theme');
+  if(saved === 'light' || saved === 'dark') applyTheme(saved);
+  else applyTheme('dark');
+}
+
+function renderMembers(members){
+  const box = document.getElementById('membersBox');
+  box.innerHTML = '';
+  (members || []).forEach(m => {
+    const d = document.createElement('div');
+    d.className = 'member-card';
+    d.innerHTML = `
+      <div style='font-weight:700'>${m.display_name || m.nickname || m.phone}</div>
+      <div class='muted' style='margin-top:4px'>进度：${m.done_count}/5</div>
+      <div class='muted'>状态：${m.checked_in ? '已打卡' : '未打卡'}</div>
+      <div class='muted'>最近更新：${m.updated_at || '暂无'}</div>
+    `;
+    box.appendChild(d);
+  });
+}
+
+async function loadMembersProgress(day){
+  const r = await fetch(`/api/members/progress?day=${encodeURIComponent(day)}`);
+  const j = await r.json();
+  renderMembers(j.members || []);
+}
+
+function renderRecordings(){
+  const box = document.getElementById('recordingsList');
+  box.innerHTML = '';
+  const recs = state.recordings || [];
+  if (!recs.length){
+    box.innerHTML = `<div class='muted'>当日暂无录音。</div>`;
+    return;
+  }
+  recs.forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'rec-item';
+    const dur = r.duration_sec ? `${Math.round(r.duration_sec)} 秒` : '时长未知';
+    d.innerHTML = `
+      <div class='rec-head'><span>成员：${r.display_name || r.nickname || r.phone}</span><span>${r.created_at || ''} ｜ ${dur}</span></div>
+      <audio controls preload='none' src='${r.url}'></audio>
+    `;
+    box.appendChild(d);
+  });
+}
+
+function renderModules(){
+  const cards = state.sentence_cards_material || [];
+  document.getElementById('cardsTheme').textContent = cards.length ? `主题：${cards[0].theme}` : '';
+  const box = document.getElementById('cardsList');
+  box.innerHTML = '';
+  cards.forEach(c=>{
+    const d = document.createElement('div');
+    d.className='sentence';
+    d.innerHTML = `<div class='en'>${c.index}. ${c.en}</div><div class='zh'>${c.zh}</div><div class='muted' style='margin-top:6px'>${c.tip||''}</div>`;
+    box.appendChild(d);
+  });
+
+  const sp = state.forced_speaking_material || {};
+  document.getElementById('speakTopic').textContent = sp.topic || '';
+  document.getElementById('speakGoal').textContent = sp.goal || '';
+
+  const ul = document.getElementById('speakStructure');
+  ul.innerHTML = '';
+  (sp.structure || []).forEach(x=>{ const li=document.createElement('li'); li.textContent=x; ul.appendChild(li); });
+
+  document.getElementById('mustUse').textContent = (sp.must_use || []).join(' / ');
+
+  const selfUl = document.getElementById('selfCheck');
+  selfUl.innerHTML = '';
+  (sp.self_check || []).forEach(x=>{ const li=document.createElement('li'); li.textContent=x; selfUl.appendChild(li); });
+
+  renderRecordings();
+}
+
+function render() {
+  document.getElementById('day').textContent = state.day;
+  const user = state.current_user || {};
+  document.getElementById('displayName').textContent = user.display_name || user.nickname || user.phone || '当前成员';
+  document.getElementById('nicknameInput').value = user.nickname || '';
+  document.getElementById('listenTitle').textContent = state.listening.title || '今日素材';
+  document.getElementById('listenDesc').textContent = state.listening.desc || '';
+  document.getElementById('listenLink').href = state.listening.url || '#';
+  document.getElementById('thumb').src = state.listening.thumb || 'https://placehold.co/1280x720/0f1115/8ea0cc?text=Listening+Material';
+
+  renderModules();
+  loadMembersProgress(state.day);
+
+  const tasksEl = document.getElementById('tasks');
+  tasksEl.innerHTML = '';
+  state.tasks.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'task' + (t.done ? ' done' : '');
+    const parts = t.label.split('：');
+    const timeText = parts[0] || '';
+    const titleText = parts.slice(1).join('：') || t.label;
+    row.innerHTML = `<div class='task-left'><span class='task-time'>${timeText}</span><span class='task-title'>${titleText}</span></div><button class='btn' data-key='${t.key}' ${isHistoryMode ? 'disabled' : ''}>${t.done ? '已完成' : '标记完成'}</button>`;
+    tasksEl.appendChild(row);
+  });
+
+  const checkinBtn = document.getElementById('checkinBtn');
+  checkinBtn.disabled = isHistoryMode || !state.done_all || state.checked_in;
+  checkinBtn.textContent = isHistoryMode ? '回顾模式不可打卡' : (state.checked_in ? '今日已打卡' : (state.done_all ? '立即打卡' : '完成全部后打卡'));
+
+  const status = document.getElementById('status');
+  status.textContent = state.checked_in ? `已打卡：${state.checkin_at}` : '未打卡';
+  status.style.color = state.checked_in ? '#7af2ac' : '#ffcd71';
+
+  const modeBadge = document.getElementById('modeBadge');
+  modeBadge.textContent = isHistoryMode ? `回顾模式（${state.day}）` : '今日模式';
+
+  const refreshBtn = document.getElementById('refreshBtn');
+  refreshBtn.disabled = isHistoryMode;
+  refreshBtn.textContent = isHistoryMode ? '回顾模式不可刷新' : '手动刷新全套素材';
+
+  document.getElementById('startRecBtn').disabled = isHistoryMode;
+  document.getElementById('stopRecBtn').disabled = true;
+
+  document.querySelectorAll('[data-key]').forEach(btn => {
+    btn.onclick = async () => {
+      if (isHistoryMode) return;
+      const key = btn.getAttribute('data-key');
+      const resp = await fetch(`/api/task/${key}/toggle`, { method: 'POST' });
+      const j = await resp.json();
+      if (j.ok) { state = j.data; render(); }
+    };
+  });
+}
+
+
+async function saveNickname(){
+  if (isHistoryMode) {
+    alert('回顾模式下也可保存昵称，请先回到今天页面后操作。');
+    return;
+  }
+  const nickname = (document.getElementById('nicknameInput').value || '').trim();
+  const resp = await fetch('/api/profile', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ nickname })
+  });
+  const j = await resp.json();
+  if (!j.ok){ alert(j.error || '保存失败'); return; }
+  if (!state.current_user) state.current_user = {};
+  state.current_user.nickname = j.profile.nickname || '';
+  state.current_user.display_name = j.profile.display_name || state.current_user.phone;
+  document.getElementById('displayName').textContent = state.current_user.display_name;
+  alert('昵称已保存 ✅');
+  loadMembersProgress(state.day);
+  const latest = await fetch('/api/today');
+  state = await latest.json();
+  renderRecordings();
+}
+
+async function checkin() {
+  const resp = await fetch('/api/checkin', { method: 'POST' });
+  const j = await resp.json();
+  if (!j.ok) { alert(j.error || '请先完成全部任务'); return; }
+  state = j.data; render(); alert('打卡成功 ✅');
+}
+
+async function refreshMaterials() {
+  if (isHistoryMode) return;
+  const resp = await fetch('/api/refresh-materials', { method: 'POST' });
+  const j = await resp.json();
+  if (j.ok) { state = j.data; render(); loadHistoryList(); }
+}
+
+async function loadHistoryList(){
+  const resp = await fetch('/api/history?limit=60');
+  const j = await resp.json();
+  const sel = document.getElementById('historySelect');
+  sel.innerHTML = '';
+  (j.days || []).forEach(d => {
+    const op = document.createElement('option');
+    op.value = d.day;
+    op.textContent = `${d.day} ｜ ${d.done_count}/5 ｜ ${d.checked_in ? '已打卡' : '未打卡'}`;
+    sel.appendChild(op);
+  });
+  if (!sel.value) sel.value = TODAY_STR;
+}
+
+async function viewHistoryDay(){
+  const sel = document.getElementById('historySelect');
+  const day = sel.value;
+  if (!day) return;
+  if (day === TODAY_STR){
+    isHistoryMode = false;
+    const r = await fetch('/api/today');
+    state = await r.json();
+    render();
+    return;
+  }
+  const resp = await fetch(`/api/day/${day}`);
+  const j = await resp.json();
+  if (!j.ok){ alert(j.error || '读取失败'); return; }
+  state = j.data;
+  isHistoryMode = true;
+  render();
+}
+
+async function backToday(){
+  const r = await fetch('/api/today');
+  state = await r.json();
+  isHistoryMode = false;
+  render();
+}
+
+async function startRecording(){
+  if (isHistoryMode) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    alert('当前浏览器不支持录音');
+    return;
+  }
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    recChunks = [];
+    recStartAt = Date.now();
+    mediaRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) recChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(recChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+      const duration = (Date.now() - recStartAt) / 1000;
+      const fd = new FormData();
+      fd.append('audio', blob, 'recording.webm');
+      fd.append('day', state.day);
+      fd.append('duration', String(duration));
+      const r = await fetch('/api/recordings/upload', { method: 'POST', body: fd });
+      const j = await r.json();
+      if (!j.ok){ alert(j.error || '录音上传失败'); }
+      else {
+        state.recordings = j.recordings || [];
+        renderRecordings();
+        loadMembersProgress(state.day);
+      }
+      document.getElementById('recStatus').textContent = '录音已保存';
+      document.getElementById('startRecBtn').disabled = false;
+      document.getElementById('stopRecBtn').disabled = true;
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    mediaRecorder.start();
+    document.getElementById('recStatus').textContent = '录音中...';
+    document.getElementById('startRecBtn').disabled = true;
+    document.getElementById('stopRecBtn').disabled = false;
+  }catch(e){
+    alert('无法访问麦克风，请检查浏览器权限');
+  }
+}
+
+function stopRecording(){
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+}
+
+document.getElementById('checkinBtn').onclick = checkin;
+document.getElementById('refreshBtn').onclick = refreshMaterials;
+document.getElementById('viewHistoryBtn').onclick = viewHistoryDay;
+document.getElementById('backTodayBtn').onclick = backToday;
+document.getElementById('startRecBtn').onclick = startRecording;
+document.getElementById('stopRecBtn').onclick = stopRecording;
+document.getElementById('saveNicknameBtn').onclick = saveNickname;
+document.getElementById('themeBtn').onclick = () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+};
+
+initTheme();
+loadHistoryList().then(render);
+</script>
+</body>
+</html>
