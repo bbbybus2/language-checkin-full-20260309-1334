@@ -1,0 +1,23 @@
+# Python runtime
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local secrets / sessions
+.secret_key
+.env
+.env.*
+
+# Production runtime data (keep out of public repo)
+checkin.db
+logs/
+prefetch/
+static/avatars/
+recordings/*
+!recordings/public/
+!recordings/public/**
+
+# OS / editor noise
+.DS_Store
+*.swp
+*.swo

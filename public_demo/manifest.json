@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "phone": "user_001",
+      "nickname": "Demo User 1",
+      "avatar_url": "/static/public-avatars/user_001.svg",
+      "theme_color": "#6f8dff"
+    },
+    {
+      "phone": "user_002",
+      "nickname": "Demo User 2",
+      "avatar_url": "/static/public-avatars/user_002.svg",
+      "theme_color": "#31d08c"
+    }
+  ],
+  "recordings": [
+    {
+      "id": "public-rec-001",
+      "phone": "user_001",
+      "file_rel": "public/user_001-recording-001.wav",
+      "duration_sec": 2.0
+    },
+    {
+      "id": "public-rec-002",
+      "phone": "user_001",
+      "file_rel": "public/user_001-recording-002.wav",
+      "duration_sec": 2.6
+    },
+    {
+      "id": "public-rec-003",
+      "phone": "user_002",
+      "file_rel": "public/user_002-recording-003.wav",
+      "duration_sec": 2.0
+    }
+  ],
+  "notes": [
+    "phones, nicknames, avatars, recordings, and pin hashes were redacted"
+  ]
+}

@@ -6,8 +6,9 @@ import subprocess
 from datetime import datetime, date
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "checkin.db")
-CHAT_ID = "7820195860"
-PRIMARY_PHONE = os.getenv("CHECKIN_PRIMARY_PHONE", "13387254145")
+CHAT_ID = os.getenv("CHECKIN_CHAT_ID", "")
+PRIMARY_PHONE = os.getenv("CHECKIN_PRIMARY_PHONE", "user_001")
+SITE_URL = os.getenv("LANGUAGE_CHECKIN_SITE_URL", "http://127.0.0.1:8099")
 TASKS = ["listening_input", "sentence_cards", "forced_speaking", "dialog_practice", "review_three_errors"]
 
 
@@ -38,7 +39,9 @@ def today_incomplete():
 
 
 def send_reminder():
-    msg = "提醒你一下：今天的语言训练还没完成打卡。先完成5个任务，再点打卡 ✅\n网站： https://bby997.de5.net"
+    if not CHAT_ID:
+        return
+    msg = f"提醒你一下：今天的语言训练还没完成打卡。先完成5个任务，再点打卡 ✅\n网站： {SITE_URL}"
     subprocess.run([
         "openclaw", "message", "send",
         "--channel", "telegram",
