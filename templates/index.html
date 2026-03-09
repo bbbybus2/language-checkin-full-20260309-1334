@@ -48,8 +48,25 @@
       .member-card:hover,.sentence:hover,.mini-card:hover,.task:hover,.rec-item:hover{transform:translateY(-3px) scale(1.015);border-color:color-mix(in oklab,var(--accent2) 45%,var(--line))}
     }
 
-    .member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-    .member-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--card2)}
+    .member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+    .member-card{--mc: var(--accent);border:1px solid color-mix(in oklab,var(--mc) 34%, var(--line));border-radius:14px;padding:12px;background:linear-gradient(165deg,color-mix(in oklab,var(--mc) 16%, var(--card2)),var(--card2))}
+    .member-head{display:flex;gap:10px;align-items:center}
+    .member-avatar{width:46px;height:46px;border-radius:50%;border:1px solid color-mix(in oklab,var(--mc) 40%, var(--line));object-fit:cover;background:color-mix(in oklab,var(--mc) 28%,var(--card2));display:grid;place-items:center;font-weight:700;color:#fff;overflow:hidden}
+    .member-name{font-size:15px;font-weight:700;line-height:1.2}
+    .member-slogan{font-size:12px;color:var(--muted);margin-top:2px}
+    .member-bio{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5;min-height:32px}
+    .member-meta{margin-top:10px;display:grid;gap:6px}
+    .member-progress{height:8px;border-radius:999px;background:color-mix(in oklab,var(--line) 48%, transparent);overflow:hidden}
+    .member-progress > span{display:block;height:100%;background:linear-gradient(90deg,color-mix(in oklab,var(--accent2) 70%, #fff),color-mix(in oklab,var(--mc) 68%, #fff))}
+    .member-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+    .member-gear{border:1px solid var(--line);background:color-mix(in oklab,var(--card2) 75%, #fff);color:var(--text);border-radius:10px;padding:5px 8px;cursor:pointer;font-size:13px}
+    .member-editor{margin-top:10px;padding:10px;border:1px dashed color-mix(in oklab,var(--mc) 45%, var(--line));border-radius:10px;background:color-mix(in oklab,var(--mc) 8%, var(--card2));display:none}
+    .member-editor.open{display:block}
+    .member-editor .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .member-editor .field-input{min-width:180px}
+    .member-editor textarea.field-input{width:100%;min-height:64px}
+    .field-input{min-width:220px;text-align:left;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card2);color:var(--text)}
+    textarea.field-input{width:min(560px,100%);min-height:72px;resize:vertical}
 
     .listen{display:grid;grid-template-columns:1fr;gap:14px}
     .listen-player-wrap{border:1px solid var(--line);border-radius:12px;background:var(--card2);padding:8px}
@@ -104,15 +121,6 @@
 
 
   <section class="section">
-    <h2>个人设置</h2>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-      <input id="nicknameInput" class="btn" style="min-width:220px;text-align:left" placeholder="设置你的昵称（如：伟琪）" />
-      <button id="saveNicknameBtn" class="btn primary">保存昵称</button>
-      <span class="muted">保存后，成员列表和录音列表将显示昵称。</span>
-    </div>
-  </section>
-
-  <section class="section">
     <h2>往期内容回顾</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <select id="historySelect" class="btn" style="min-width:260px"></select>
@@ -136,11 +144,11 @@
       <div>
         <div id="listenTitle" style="font-size:16px;font-weight:700"></div>
         <div id="listenDesc" class="muted" style="margin-top:6px;line-height:1.5"></div>
+        <div id="materialVersion" class="muted" style="margin-top:6px"></div>
         <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
           <button id="fullscreenBtn" class="btn primary">全屏播放</button>
           <a id="listenLink" class="btn" target="_blank" rel="noopener">在YouTube打开</a>
-          <button id="refreshBtn" class="btn">手动刷新全套素材</button>
-        </div>
+                  </div>
       </div>
     </div>
   </section>
@@ -211,19 +219,91 @@ function initTheme(){
   else applyTheme('dark');
 }
 
+function avatarFallback(name){
+  const s = (name || '').trim();
+  if (!s) return 'U';
+  return s.slice(0,1).toUpperCase();
+}
+
+function escapeHtml(s){
+  return String(s || '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'",'&#39;');
+}
+
 function renderMembers(members){
   const box = document.getElementById('membersBox');
   box.innerHTML = '';
+  const currentPhone = state?.current_user?.phone || '';
+
   (members || []).forEach(m => {
     const d = document.createElement('div');
     d.className = 'member-card';
+    const themeColor = (m.theme_color || '#6f8dff').trim();
+    d.style.setProperty('--mc', themeColor || '#6f8dff');
+    const percent = Math.max(0, Math.min(100, Math.round((Number(m.done_count || 0) / 5) * 100)));
+    const name = m.display_name || m.nickname || m.phone;
+    const slogan = m.slogan || 'Keep learning, keep speaking.';
+    const bio = m.bio || '这位成员还没有填写个人简介。';
+    const safeName = escapeHtml(name);
+    const safeSlogan = escapeHtml(slogan);
+    const safeBio = escapeHtml(bio);
+    const avatarUrl = (m.avatar_url || '').trim();
+    const avatar = avatarUrl
+      ? `<img src='${escapeHtml(avatarUrl)}' alt='avatar' style='width:100%;height:100%;object-fit:cover' onerror="this.remove();this.parentElement.textContent='${avatarFallback(name)}'" />`
+      : escapeHtml(avatarFallback(name));
+
+    const isMe = m.phone === currentPhone;
+    const gearBtn = isMe ? `<button class='member-gear' data-role='toggle-editor' title='编辑个人信息'>⚙️</button>` : '';
+    const editor = isMe ? `
+      <div class='member-editor' data-role='editor'>
+        <div class='row'>
+          <input class='field-input' data-role='nickname' placeholder='昵称' value='${escapeHtml(m.nickname || '')}' />
+          <input class='field-input' data-role='avatar-url' placeholder='头像URL（https://...）' value='${escapeHtml(m.avatar_url || '')}' />
+          <input class='field-input' data-role='avatar-file' type='file' accept='image/*' />
+          <input class='field-input' data-role='theme-color' type='color' value='${escapeHtml(themeColor || '#6f8dff')}' style='min-width:64px;padding:4px 6px;height:42px' />
+        </div>
+        <div class='row'>
+          <input class='field-input' data-role='slogan' placeholder='Slogan' value='${escapeHtml(m.slogan || '')}' style='min-width:280px' />
+        </div>
+        <div class='row'>
+          <textarea class='field-input' data-role='bio' placeholder='个人简介'>${escapeHtml(m.bio || '')}</textarea>
+        </div>
+        <button class='btn primary' data-role='save-editor'>保存资料</button>
+      </div>
+    ` : '';
+
     d.innerHTML = `
-      <div style='font-weight:700'>${m.display_name || m.nickname || m.phone}</div>
-      <div class='muted' style='margin-top:4px'>进度：${m.done_count}/5</div>
-      <div class='muted'>状态：${m.checked_in ? '已打卡' : '未打卡'}</div>
-      <div class='muted'>最近更新：${m.updated_at || '暂无'}</div>
+      <div class='member-top'>
+        <div class='member-head'>
+          <div class='member-avatar'>${avatar}</div>
+          <div>
+            <div class='member-name'>${safeName}</div>
+            <div class='member-slogan'>${safeSlogan}</div>
+          </div>
+        </div>
+        ${gearBtn}
+      </div>
+      <div class='member-bio'>${safeBio}</div>
+      <div class='member-meta'>
+        <div class='muted'>进度：${m.done_count}/5 ｜ ${m.checked_in ? '已打卡 ✅' : '未打卡'} ｜ 主题色：${escapeHtml(themeColor)}</div>
+        <div class='member-progress'><span style='width:${percent}%'></span></div>
+        <div class='muted'>最近更新：${m.updated_at || '暂无'}</div>
+      </div>
+      ${editor}
     `;
     box.appendChild(d);
+
+    if (isMe) {
+      const toggleBtn = d.querySelector('[data-role="toggle-editor"]');
+      const editorEl = d.querySelector('[data-role="editor"]');
+      const saveBtn = d.querySelector('[data-role="save-editor"]');
+      if (toggleBtn && editorEl) toggleBtn.onclick = () => editorEl.classList.toggle('open');
+      if (saveBtn) saveBtn.onclick = () => saveProfileFromCard(d, saveBtn);
+    }
   });
 }
 
@@ -369,9 +449,9 @@ function render() {
   document.getElementById('day').textContent = state.day;
   const user = state.current_user || {};
   document.getElementById('displayName').textContent = user.display_name || user.nickname || user.phone || '当前成员';
-  document.getElementById('nicknameInput').value = user.nickname || '';
   document.getElementById('listenTitle').textContent = state.listening.title || '今日素材';
   document.getElementById('listenDesc').textContent = state.listening.desc || '';
+  document.getElementById('materialVersion').textContent = `素材版本时间：${state.material_updated_at || '未知'}`;
   document.getElementById('listenLink').href = state.listening.url || '#';
   const listenUrl = state.listening.url || '#';
   const listenPlayer = document.getElementById('listenPlayer');
@@ -423,10 +503,6 @@ function render() {
   const modeBadge = document.getElementById('modeBadge');
   modeBadge.textContent = isHistoryMode ? `回顾模式（${state.day}）` : '今日模式';
 
-  const refreshBtn = document.getElementById('refreshBtn');
-  refreshBtn.disabled = isHistoryMode;
-  refreshBtn.textContent = isHistoryMode ? '回顾模式不可刷新' : '手动刷新全套素材';
-
   document.getElementById('startRecBtn').disabled = isHistoryMode;
   document.getElementById('stopRecBtn').disabled = true;
 
@@ -442,28 +518,66 @@ function render() {
 }
 
 
-async function saveNickname(){
+async function saveProfileFromCard(cardEl, saveBtn){
   if (isHistoryMode) {
-    alert('回顾模式下也可保存昵称，请先回到今天页面后操作。');
+    alert('回顾模式下不可编辑资料，请先回到今天页面。');
     return;
   }
-  const nickname = (document.getElementById('nicknameInput').value || '').trim();
-  const resp = await fetch('/api/profile', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ nickname })
-  });
-  const j = await resp.json();
-  if (!j.ok){ alert(j.error || '保存失败'); return; }
-  if (!state.current_user) state.current_user = {};
-  state.current_user.nickname = j.profile.nickname || '';
-  state.current_user.display_name = j.profile.display_name || state.current_user.phone;
-  document.getElementById('displayName').textContent = state.current_user.display_name;
-  alert('昵称已保存 ✅');
-  loadMembersProgress(state.day);
-  const latest = await fetch('/api/today');
-  state = await latest.json();
-  renderRecordings();
+
+  try {
+    saveBtn.disabled = true;
+    saveBtn.textContent = '保存中...';
+
+    const nickname = (cardEl.querySelector('[data-role="nickname"]')?.value || '').trim();
+    let avatar_url = (cardEl.querySelector('[data-role="avatar-url"]')?.value || '').trim();
+    const slogan = (cardEl.querySelector('[data-role="slogan"]')?.value || '').trim();
+    const bio = (cardEl.querySelector('[data-role="bio"]')?.value || '').trim();
+    const theme_color = (cardEl.querySelector('[data-role="theme-color"]')?.value || '').trim();
+
+    const avatarFile = cardEl.querySelector('[data-role="avatar-file"]')?.files?.[0];
+    if (avatarFile) {
+      if (avatarFile.size > 5 * 1024 * 1024) {
+        alert('头像文件不能超过 5MB');
+        return;
+      }
+      const fd = new FormData();
+      fd.append('avatar', avatarFile);
+      const up = await fetch('/api/profile/avatar', { method: 'POST', body: fd });
+      let uj = null;
+      const ct = up.headers.get('content-type') || '';
+      if (ct.includes('application/json')) uj = await up.json();
+      else uj = { ok: false, error: `头像上传失败（HTTP ${up.status}）${up.status === 413 ? '：文件过大' : ''}` };
+      if (!up.ok || !uj.ok) { alert(uj.error || '头像上传失败'); return; }
+      avatar_url = uj.avatar_url || avatar_url;
+      const avatarInput = cardEl.querySelector('[data-role="avatar-url"]');
+      if (avatarInput) avatarInput.value = avatar_url;
+      const avatarFileInput = cardEl.querySelector('[data-role="avatar-file"]');
+      if (avatarFileInput) avatarFileInput.value = '';
+    }
+
+    const resp = await fetch('/api/profile', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ nickname, avatar_url, slogan, bio, theme_color })
+    });
+    const j = await resp.json();
+    if (!j.ok){ alert(j.error || '保存失败'); return; }
+
+    if (!state.current_user) state.current_user = {};
+    Object.assign(state.current_user, j.profile || {});
+    document.getElementById('displayName').textContent = state.current_user.display_name || state.current_user.phone;
+
+    await loadMembersProgress(state.day);
+    const latest = await fetch('/api/today');
+    state = await latest.json();
+    renderRecordings();
+    alert('个人资料已保存 ✅');
+  } catch (e) {
+    alert('保存失败：网络或服务异常，请重试');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = '保存资料';
+  }
 }
 
 async function checkin() {
@@ -471,13 +585,6 @@ async function checkin() {
   const j = await resp.json();
   if (!j.ok) { alert(j.error || '请先完成全部任务'); return; }
   state = j.data; render(); alert('打卡成功 ✅');
-}
-
-async function refreshMaterials() {
-  if (isHistoryMode) return;
-  const resp = await fetch('/api/refresh-materials', { method: 'POST' });
-  const j = await resp.json();
-  if (j.ok) { state = j.data; render(); loadHistoryList(); }
 }
 
 async function loadHistoryList(){
@@ -566,12 +673,10 @@ function stopRecording(){
 }
 
 document.getElementById('checkinBtn').onclick = checkin;
-document.getElementById('refreshBtn').onclick = refreshMaterials;
 document.getElementById('viewHistoryBtn').onclick = viewHistoryDay;
 document.getElementById('backTodayBtn').onclick = backToday;
 document.getElementById('startRecBtn').onclick = startRecording;
 document.getElementById('stopRecBtn').onclick = stopRecording;
-document.getElementById('saveNicknameBtn').onclick = saveNickname;
 document.getElementById('fullscreenBtn').onclick = async () => {
   const wrap = document.getElementById('playerWrap');
   if (!document.fullscreenElement) {
