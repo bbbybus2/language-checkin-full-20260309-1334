@@ -4,86 +4,620 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weekly Progress - 语言训练打卡站</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%236f8dff%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2331d08c%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2756%27%20height%3D%2756%27%20rx%3D%2714%27%20fill%3D%27url%28%23g%29%27/%3E%3Cpath%20d%3D%27M20%2034a12%2012%200%200%201%2024%200v10a4%204%200%200%201-8%200V34a4%204%200%201%200-8%200v10a4%204%200%200%201-8%200V34z%27%20fill%3D%27white%27%20opacity%3D%27.96%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('lc_theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    } catch (e) {}
+  </script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%2367b7ff%27/%3E%3Cstop%20offset%3D%2752%25%27%20stop-color%3D%27%2388e5c4%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23ffd67a%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2756%27%20height%3D%2756%27%20rx%3D%2716%27%20fill%3D%27url%28%23g%29%27/%3E%3Cpath%20d%3D%27M21%2033a11%2011%200%200%201%2022%200v10a4%204%200%200%201-8%200V33a3%203%200%201%200-6%200v10a4%204%200%200%201-8%200V33z%27%20fill%3D%27white%27%20opacity%3D%27.96%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2744%27%20r%3D%273.5%27%20fill%3D%27white%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2744%27%20r%3D%273.5%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0e1118;--bg2:#111624;--card:#171c2a;--line:#2b3448;--text:#f5f7ff;--muted:#9aa8c3;--ok:#28c76f;--warn:#ffb020;--shadow:0 10px 30px rgba(3,8,20,.35);--accent:#6f8dff}
-    html[data-theme="light"]{--bg:#f8f4ea;--bg2:#f6efe1;--card:#fffaf0;--line:#eadfc9;--text:#2a2419;--muted:#7d7059;--ok:#2a9b63;--warn:#b47d1a;--shadow:0 8px 20px rgba(119,93,49,.12);--accent:#7f6bff}
-    body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg));color:var(--text);font-family:"Nunito","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif}
-    .wrap{max-width:980px;margin:24px auto;padding:0 16px}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--text);background:var(--card);cursor:pointer}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
-    @media (hover:hover){.card:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 16px 34px rgba(3,8,20,.42);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}}
-    .v{font-size:30px;font-weight:800}.k{color:var(--muted);font-size:13px}
-    .section{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
-    .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-    .day{padding:10px;border:1px solid var(--line);border-radius:10px;background:color-mix(in oklab,var(--card) 86%, transparent);transition:transform .2s ease,border-color .2s ease,background .2s ease}
-    .day.ok{border-color:color-mix(in oklab,var(--ok) 60%,var(--line));background:color-mix(in oklab,var(--ok) 12%,var(--card))}
-    @media (hover:hover){.day:hover{transform:translateY(-2px) scale(1.02);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}}
-    .heat{display:grid;gap:8px}.row{display:grid;grid-template-columns:56px repeat(5,1fr);gap:6px;align-items:center}
-    .cell{height:24px;border-radius:6px;border:1px solid var(--line);background:color-mix(in oklab,var(--card) 80%, #202634)}
-    .cell.on{background:color-mix(in oklab,var(--ok) 35%, var(--card));border-color:color-mix(in oklab,var(--ok) 55%, var(--line))}
-    .legend{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
-    @media (max-width:900px){.cards{grid-template-columns:1fr}.week{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:52px repeat(5,1fr)}}
+    :root {
+      --bg:#eef8ff;
+      --surface:rgba(255,255,255,.42);
+      --surface-strong:rgba(255,255,255,.68);
+      --surface-soft:rgba(255,255,255,.28);
+      --line:rgba(255,255,255,.56);
+      --text:#183153;
+      --muted:#60748e;
+      --accent:#5c90ff;
+      --accent-strong:#3b78ff;
+      --mint:#54d2b5;
+      --sun:#ffd56f;
+      --ok:#18b779;
+      --warn:#f0a94b;
+      --danger:#de6186;
+      --shadow:0 24px 60px rgba(90,118,161,.16);
+      --shadow-strong:0 30px 72px rgba(90,118,161,.2);
+      --radius:30px;
+    }
+    html[data-theme="dark"] {
+      --bg:#111a2f;
+      --surface:rgba(12,19,36,.48);
+      --surface-strong:rgba(21,31,55,.72);
+      --surface-soft:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.12);
+      --text:#f6f8ff;
+      --muted:#aab8d1;
+      --accent:#7da9ff;
+      --accent-strong:#95b9ff;
+      --mint:#7ae1c5;
+      --sun:#ffd477;
+      --ok:#3ed59a;
+      --warn:#f5ba61;
+      --danger:#ff9bbc;
+      --shadow:0 22px 60px rgba(0,0,0,.3);
+      --shadow-strong:0 30px 72px rgba(0,0,0,.4);
+    }
+
+    * { box-sizing:border-box; }
+    html, body { min-height:100%; }
+    body {
+      margin:0;
+      font-family:"Sora","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 12%, rgba(107,182,255,.56), transparent 26%),
+        radial-gradient(circle at 88% 16%, rgba(136,229,196,.44), transparent 24%),
+        radial-gradient(circle at 78% 82%, rgba(255,214,122,.42), transparent 28%),
+        linear-gradient(150deg, #edf8ff 0%, #f2fff7 48%, #fff8dd 100%);
+      overflow-x:hidden;
+    }
+    html[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 10% 12%, rgba(66,113,204,.45), transparent 26%),
+        radial-gradient(circle at 88% 16%, rgba(54,132,113,.34), transparent 24%),
+        radial-gradient(circle at 78% 82%, rgba(142,109,46,.26), transparent 28%),
+        linear-gradient(150deg, #111a2f 0%, #16233a 50%, #1b2b3d 100%);
+    }
+    body::before,
+    body::after {
+      content:"";
+      position:fixed;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      filter:blur(38px);
+      opacity:.45;
+      pointer-events:none;
+      z-index:0;
+    }
+    body::before { left:-90px; top:-80px; background:rgba(138,198,255,.36); }
+    body::after { right:-80px; bottom:-110px; background:rgba(255,218,136,.22); }
+
+    .wrap {
+      position:relative;
+      z-index:1;
+      width:min(1200px, calc(100% - 32px));
+      margin:28px auto 52px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+    }
+    .glass {
+      background:var(--surface);
+      backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+
+    .hero,
+    .section {
+      border-radius:32px;
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(14,21,45,.84), rgba(18,24,49,.76)),
+        radial-gradient(circle at 12% 0%, rgba(74,120,255,.12), transparent 26%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 24px 44px rgba(3,10,24,.22);
+    }
+    html:not([data-theme="dark"]) .hero,
+    html:not([data-theme="dark"]) .section {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.5), rgba(244,250,255,.62)),
+        radial-gradient(circle at 12% 0%, rgba(74,120,255,.1), transparent 26%);
+      border:1px solid rgba(124,156,214,.14);
+      box-shadow:0 24px 44px rgba(109,132,171,.14);
+    }
+
+    .hero-top {
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) auto;
+      gap:22px;
+      align-items:start;
+    }
+    .hero-copy {
+      min-width:0;
+      display:grid;
+      gap:14px;
+    }
+    .hero-kicker {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:#d9e6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .hero-kicker::before {
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#67d4ff;
+      box-shadow:0 0 12px rgba(103,212,255,.8);
+    }
+    html:not([data-theme="dark"]) .hero-kicker {
+      background:rgba(92,144,255,.1);
+      border-color:rgba(92,144,255,.18);
+      color:#35527b;
+    }
+    html:not([data-theme="dark"]) .hero-kicker::before {
+      background:#5c90ff;
+      box-shadow:0 0 12px rgba(92,144,255,.38);
+    }
+    .title {
+      margin:0;
+      display:grid;
+      gap:10px;
+      line-height:1;
+    }
+    .title-en {
+      font-family:"Fraunces","Noto Serif CJK SC","Songti SC",serif;
+      font-size:clamp(44px,5.3vw,80px);
+      font-weight:700;
+      letter-spacing:-.06em;
+      line-height:.95;
+      color:transparent;
+      background:linear-gradient(180deg, #ffffff 0%, #d8e8ff 48%, #a8c8ff 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      text-shadow:0 12px 36px rgba(120,174,255,.14);
+      max-width:6.4ch;
+    }
+    html:not([data-theme="dark"]) .title-en {
+      background:linear-gradient(180deg, #173663 0%, #2e568d 48%, #5a85d8 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      text-shadow:0 10px 24px rgba(92,144,255,.12);
+    }
+    .title-cn {
+      font-size:clamp(18px,1.8vw,26px);
+      font-weight:700;
+      letter-spacing:-.015em;
+      color:#f7fbff;
+      opacity:.98;
+    }
+    html:not([data-theme="dark"]) .title-cn { color:#183153; }
+    .hero-description {
+      margin:0;
+      max-width:56ch;
+      color:rgba(225,235,255,.78);
+      font-size:14px;
+      line-height:1.9;
+    }
+    html:not([data-theme="dark"]) .hero-description { color:rgba(36,58,95,.82); }
+
+    .hero-meta-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+    }
+    .hero-meta-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:11px 15px;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.13);
+      font-size:12px;
+      color:rgba(225,235,255,.78);
+      font-weight:700;
+    }
+    .hero-meta-pill strong { color:#fff; font-weight:800; }
+    html:not([data-theme="dark"]) .hero-meta-pill {
+      background:rgba(255,255,255,.72);
+      border-color:rgba(124,156,214,.2);
+      color:rgba(36,58,95,.84);
+    }
+    html:not([data-theme="dark"]) .hero-meta-pill strong { color:#183153; }
+
+    .hero-controls {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-self:start;
+    }
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:52px;
+      padding:13px 18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.08);
+      color:#eef5ff;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:700;
+      box-shadow:0 16px 30px rgba(3,10,25,.2), inset 0 1px 0 rgba(255,255,255,.08);
+      transition:transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      cursor:pointer;
+    }
+    .btn:hover {
+      transform:translateY(-2px);
+      border-color:rgba(255,255,255,.16);
+      background:rgba(255,255,255,.12);
+    }
+    html:not([data-theme="dark"]) .btn {
+      color:#23405f;
+      background:rgba(255,255,255,.84);
+      border-color:rgba(124,156,214,.22);
+      box-shadow:0 14px 26px rgba(109,132,171,.14), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
+    .weekly-stats {
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:14px;
+      margin-top:22px;
+    }
+    .stat-card {
+      padding:20px 18px;
+      border-radius:24px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 14px 24px rgba(3,10,24,.18), inset 0 1px 0 rgba(255,255,255,.05);
+      display:grid;
+      gap:8px;
+      min-height:148px;
+      align-content:start;
+    }
+    html:not([data-theme="dark"]) .stat-card {
+      background:rgba(255,255,255,.76);
+      border:1px solid rgba(124,156,214,.18);
+      box-shadow:0 14px 24px rgba(109,132,171,.1), inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .stat-label {
+      font-size:11px;
+      color:rgba(220,232,255,.62);
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    html:not([data-theme="dark"]) .stat-label { color:rgba(36,58,95,.74); }
+    .stat-value {
+      font-size:38px;
+      line-height:1;
+      font-weight:800;
+      letter-spacing:-.05em;
+      color:#f8fbff;
+      margin-top:6px;
+    }
+    html:not([data-theme="dark"]) .stat-value { color:#183153; }
+    .stat-value.ok { color:#7de8ff; }
+    .stat-value.warn { color:var(--warn); }
+    html:not([data-theme="dark"]) .stat-value.ok { color:#4a7cff; }
+    .stat-note {
+      font-size:12px;
+      line-height:1.75;
+      color:rgba(220,232,255,.66);
+    }
+    html:not([data-theme="dark"]) .stat-note { color:rgba(36,58,95,.78); }
+
+    .section-head {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .section-title {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .section-icon {
+      width:44px;
+      height:44px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      font-size:22px;
+      background:linear-gradient(145deg, rgba(255,255,255,.78), rgba(255,255,255,.2));
+      box-shadow:0 10px 18px rgba(109,132,171,.16);
+    }
+    html:not([data-theme="dark"]) .section-icon {
+      background:linear-gradient(145deg, rgba(255,255,255,.82), rgba(232,241,255,.72));
+      box-shadow:0 10px 18px rgba(109,132,171,.12);
+      color:#35527b;
+    }
+    .section h2 {
+      margin:0;
+      font-family:"Fraunces","Noto Serif CJK SC","Songti SC",serif;
+      font-size:30px;
+      line-height:1.05;
+      letter-spacing:-.03em;
+    }
+    .section-note { color:rgba(216,227,247,.66); font-size:13px; line-height:1.8; }
+    html:not([data-theme="dark"]) .section-note { color:rgba(36,58,95,.6); }
+
+    .days-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(132px, 1fr));
+      gap:12px;
+    }
+    .day-card {
+      position:relative;
+      padding:18px;
+      border-radius:22px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 16px 28px rgba(3,10,24,.18), inset 0 1px 0 rgba(255,255,255,.05);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .day-card:hover {
+      transform:translateY(-4px);
+      box-shadow:0 22px 34px rgba(3,10,24,.24);
+      border-color:rgba(108,225,255,.2);
+    }
+    .day-card.checked {
+      background:linear-gradient(180deg, rgba(91,166,255,.16), rgba(111,231,255,.08));
+      border-color:rgba(111,231,255,.24);
+      box-shadow:0 0 0 1px rgba(111,231,255,.08), 0 22px 34px rgba(3,10,24,.24);
+    }
+    html:not([data-theme="dark"]) .day-card {
+      background:rgba(255,255,255,.62);
+      border-color:rgba(124,156,214,.16);
+      box-shadow:0 14px 26px rgba(109,132,171,.12), inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    html:not([data-theme="dark"]) .day-card.checked {
+      background:linear-gradient(180deg, rgba(92,144,255,.14), rgba(84,210,181,.08));
+      border-color:rgba(92,144,255,.2);
+      box-shadow:0 18px 28px rgba(109,132,171,.16);
+    }
+    .day-top {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .day-name {
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:-.02em;
+      color:#f8fbff;
+    }
+    html:not([data-theme="dark"]) .day-name { color:#183153; }
+    .day-mark {
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(217,227,248,.58);
+    }
+    html:not([data-theme="dark"]) .day-mark { color:rgba(36,58,95,.52); }
+    .day-meta {
+      margin-top:12px;
+      font-size:13px;
+      font-weight:700;
+      color:#edf5ff;
+    }
+    html:not([data-theme="dark"]) .day-meta { color:#183153; }
+    .day-sub {
+      margin-top:8px;
+      font-size:12px;
+      line-height:1.75;
+      color:rgba(216,227,247,.66);
+    }
+    .day-card.checked .day-sub { color:#7de8ff; }
+    html:not([data-theme="dark"]) .day-sub { color:rgba(36,58,95,.66); }
+    html:not([data-theme="dark"]) .day-card.checked .day-sub { color:#2a8e74; }
+
+    .heat-legend {
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.8;
+      margin-bottom:16px;
+    }
+    .heat-grid {
+      display:grid;
+      gap:12px;
+    }
+    .heat-row {
+      display:grid;
+      grid-template-columns:64px repeat(5, minmax(0, 1fr));
+      gap:10px;
+      align-items:center;
+    }
+    .heat-label {
+      font-size:13px;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .heat-cell {
+      height:36px;
+      border-radius:12px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .heat-cell.on {
+      background:linear-gradient(135deg, rgba(62,213,154,.24), rgba(125,169,255,.12));
+      border-color:rgba(62,213,154,.28);
+    }
+    .heat-cell:hover {
+      transform:translateY(-2px);
+      box-shadow:0 8px 16px rgba(3,10,24,.2);
+      border-color:rgba(255,255,255,.12);
+    }
+    html:not([data-theme="dark"]) .heat-legend,
+    html:not([data-theme="dark"]) .heat-label {
+      color:rgba(36,58,95,.7);
+    }
+    html:not([data-theme="dark"]) .heat-cell {
+      background:rgba(255,255,255,.58);
+      border-color:rgba(124,156,214,.16);
+      box-shadow:0 14px 26px rgba(109,132,171,.12), inset 0 1px 0 rgba(255,255,255,.55);
+    }
+    html:not([data-theme="dark"]) .heat-cell.on {
+      background:linear-gradient(135deg, rgba(84,210,181,.24), rgba(92,144,255,.16));
+      border-color:rgba(84,210,181,.3);
+    }
+    html:not([data-theme="dark"]) .heat-cell:hover {
+      border-color:rgba(92,144,255,.2);
+      box-shadow:0 20px 32px rgba(109,132,171,.16);
+    }
+
+    @media (max-width: 900px) {
+      .hero-top {
+        grid-template-columns:1fr;
+      }
+      .hero-controls {
+        justify-content:flex-start;
+      }
+      .weekly-stats {
+        grid-template-columns:1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .wrap { width:min(100% - 16px, 1200px); margin:16px auto 40px; }
+      .hero,
+      .section { padding:20px; border-radius:26px; }
+      .title-en { font-size:38px; }
+      .title-cn { font-size:22px; }
+      .hero-controls,
+      .hero-meta-row { flex-direction:column; align-items:stretch; }
+      .heat-row { grid-template-columns:1fr; }
+      .heat-label { margin-bottom:-2px; }
+    }
   </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <h1 style="margin:0;font-family:'Merriweather','Noto Serif CJK SC','Songti SC',serif">Weekly Progress · 周报</h1>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <a class="btn" href="/">返回今日</a>
-      <button id="themeBtn" class="btn">🌙 暗色模式</button>
-      <a class="btn" href="/logout">退出</a>
-    </div>
-  </div>
 
-  <div style="color:var(--muted)">周期：{{ stats.monday }} ~ {{ stats.sunday }}</div>
-
-  <div class="cards">
-    <div class="card"><div class="v">{{ stats.checkin_rate }}%</div><div class="k">Check-in Rate｜本周打卡率</div></div>
-    <div class="card"><div class="v">{{ 7 - stats.missed_days }}</div><div class="k">Completed Days｜已打卡天数</div></div>
-    <div class="card"><div class="v">{{ stats.missed_days }}</div><div class="k">Missed Days｜漏打卡天数</div></div>
-  </div>
-
-  <div class="section">
-    <h3>Daily Overview｜每日打卡概览</h3>
-    <div class="week">
-      {% for d in stats.days %}
-      <div class="day {% if d.checked_in %}ok{% endif %}">
-        <div style="font-weight:700">{{ d.weekday }}</div>
-        <div style="font-size:12px;color:var(--muted)">{{ d.day }}</div>
-        <div style="margin-top:6px">任务完成：{{ d.done_count }}/5</div>
-        <div style="margin-top:2px;color:{% if d.checked_in %}#7af2ac{% else %}var(--warn){% endif %}">{% if d.checked_in %}已打卡{% else %}未打卡{% endif %}</div>
+  <section class="hero glass">
+    <div class="hero-top">
+      <div class="hero-copy">
+        <div class="hero-kicker">English Training Studio</div>
+        <h1 class="title">
+          <span class="title-en">Weekly Review</span>
+          <span class="title-cn">周报总览</span>
+        </h1>
+        <p class="hero-description">把一周的打卡状态、完成率和任务热力图整合进同一套周视图里。信息更紧凑，层级更清楚，不再留多余空白。</p>
+        <div class="hero-meta-row">
+          <span class="hero-meta-pill">统计周期 <strong>{{ stats.monday }} ~ {{ stats.sunday }}</strong></span>
+        </div>
       </div>
+
+      <div class="hero-controls">
+        <a class="btn" href="/">返回今日</a>
+        <button id="themeBtn" class="btn" type="button">☀️ 切换到明亮</button>
+      </div>
+    </div>
+
+    <div class="weekly-stats">
+      <article class="stat-card">
+        <div class="stat-label">CHECK-IN RATE</div>
+        <div class="stat-value ok">{{ stats.checkin_rate }}%</div>
+        <div class="stat-note">本周打卡率</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-label">COMPLETED</div>
+        <div class="stat-value">{{ 7 - stats.missed_days }}</div>
+        <div class="stat-note">已打卡天数</div>
+      </article>
+      <article class="stat-card">
+        <div class="stat-label">MISSED</div>
+        <div class="stat-value warn">{{ stats.missed_days }}</div>
+        <div class="stat-note">漏打卡天数</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section glass">
+    <div class="section-head">
+      <div>
+        <div class="section-title"><span class="section-icon">🗓️</span><h2>每日打卡概览</h2></div>
+        <div class="section-note">按天查看本周完成情况，保持和主界面一致的玻璃卡层次。</div>
+      </div>
+    </div>
+    <div class="days-grid">
+      {% for d in stats.days %}
+      <article class="day-card {% if d.checked_in %}checked{% endif %}">
+        <div class="day-top">
+          <div class="day-name">{{ d.weekday }}</div>
+          <div class="day-mark">{% if d.checked_in %}✓{% endif %}</div>
+        </div>
+        <div class="day-meta">完成：{{ d.done_count }}/5</div>
+        <div class="day-sub">{% if d.checked_in %}已打卡{% else %}未打卡{% endif %}</div>
+      </article>
       {% endfor %}
     </div>
-  </div>
+  </section>
 
-  <div class="section">
-    <h3>Task Heatmap（Weekly）｜任务完成热力图</h3>
-    <div class="legend">每行一天，每列一个任务；绿色=已完成</div>
-    <div class="heat" style="margin-top:10px">
+  <section class="section glass">
+    <div class="section-head">
+      <div>
+        <div class="section-title"><span class="section-icon">🔥</span><h2>任务完成热力图</h2></div>
+        <div class="section-note">每行一天，每列一个任务。高亮表示当天该任务已完成。</div>
+      </div>
+    </div>
+    <div class="heat-legend">🟩 绿色高亮 = 已完成任务 ｜ ⬛ 未点亮 = 当天未完成</div>
+    <div class="heat-grid">
       {% for r in stats.heatmap %}
-      <div class="row">
-        <div style="font-size:12px;color:var(--muted)">{{ r.weekday }}</div>
+      <div class="heat-row">
+        <div class="heat-label">{{ r.weekday }}</div>
         {% for c in r.cells %}
-        <div class="cell {% if c.done %}on{% endif %}" title="{{ c.task }}"></div>
+        <div class="heat-cell {% if c.done %}on{% endif %}" title="{{ c.task }}"></div>
         {% endfor %}
       </div>
       {% endfor %}
     </div>
-  </div>
+  </section>
+
 </div>
 <script>
 function applyTheme(theme){
-  document.documentElement.setAttribute('data-theme', theme);
+  const root = document.documentElement;
+  root.setAttribute('data-theme', theme);
   localStorage.setItem('lc_theme', theme);
-  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌞 明亮模式' : '🌙 暗色模式';
+  const tb = document.getElementById('themeBtn');
+  if (tb) tb.textContent = theme === 'light' ? '🌙 切换到暗色' : '☀️ 切换到明亮';
 }
-const t = localStorage.getItem('lc_theme') || 'dark'; applyTheme(t);
-document.getElementById('themeBtn').onclick = ()=> applyTheme((document.documentElement.getAttribute('data-theme')||'dark')==='dark'?'light':'dark');
+function initTheme(){
+  const saved = localStorage.getItem('lc_theme');
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(saved || current || 'dark');
+}
+initTheme();
+const tb = document.getElementById('themeBtn');
+if (tb) {
+  tb.onclick = () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  };
+}
 </script>
 </body>
 </html>

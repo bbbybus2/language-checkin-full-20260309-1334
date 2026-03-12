@@ -1,149 +1,400 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>登录 - 语言训练打卡站</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%236f8dff%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%2331d08c%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2756%27%20height%3D%2756%27%20rx%3D%2714%27%20fill%3D%27url%28%23g%29%27/%3E%3Cpath%20d%3D%27M20%2034a12%2012%200%200%201%2024%200v10a4%204%200%200%201-8%200V34a4%204%200%201%200-8%200v10a4%204%200%200%201-8%200V34z%27%20fill%3D%27white%27%20opacity%3D%27.96%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2745%27%20r%3D%274%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('lc_theme');
+      if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    } catch (e) {}
+  </script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%3Cstop%20offset%3D%270%25%27%20stop-color%3D%27%2367b7ff%27/%3E%3Cstop%20offset%3D%2752%25%27%20stop-color%3D%27%2388e5c4%27/%3E%3Cstop%20offset%3D%27100%25%27%20stop-color%3D%27%23ffd67a%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2756%27%20height%3D%2756%27%20rx%3D%2716%27%20fill%3D%27url%28%23g%29%27/%3E%3Cpath%20d%3D%27M21%2033a11%2011%200%200%201%2022%200v10a4%204%200%200%201-8%200V33a3%203%200%201%200-6%200v10a4%204%200%200%201-8%200V33z%27%20fill%3D%27white%27%20opacity%3D%27.96%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2744%27%20r%3D%273.5%27%20fill%3D%27white%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2744%27%20r%3D%273.5%27%20fill%3D%27white%27/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0c1222;
-      --bg2:#121a31;
-      --card:#161f39;
-      --panel:#1d2745;
-      --line:#2f3d63;
-      --text:#ecf2ff;
-      --muted:#95a7cf;
-      --accent:#5f8cff;
-      --accent2:#39c7a2;
-      --danger:#ff8ea1;
-      --shadow:0 24px 60px rgba(4,10,25,.42);
+      --bg:#eef7ff;
+      --text:#183153;
+      --muted:#5b6f89;
+      --panel:rgba(255,255,255,.46);
+      --panel-strong:rgba(255,255,255,.7);
+      --line:rgba(255,255,255,.55);
+      --shadow:0 20px 60px rgba(89,118,161,.18);
+      --accent:#5d8eff;
+      --accent2:#48d1b0;
+      --accent3:#ffcf69;
+      --danger:#de5c7f;
+      --input:#f8fbff;
     }
-    html[data-theme="light"]{
-      --bg:#f7f0e1;
-      --bg2:#f5ead6;
-      --card:#fff9ee;
-      --panel:#fff4df;
-      --line:#ead9ba;
-      --text:#2d261a;
-      --muted:#7a6c53;
-      --accent:#6e66ff;
-      --accent2:#199f7f;
-      --danger:#c45b58;
-      --shadow:0 18px 38px rgba(114,92,59,.16);
+    html[data-theme="dark"]{
+      --bg:#111a2f;
+      --text:#f5f8ff;
+      --muted:#adbbd4;
+      --panel:rgba(15,23,42,.48);
+      --panel-strong:rgba(22,32,56,.72);
+      --line:rgba(255,255,255,.12);
+      --shadow:0 20px 60px rgba(0,0,0,.34);
+      --accent:#79a7ff;
+      --accent2:#71e1c3;
+      --accent3:#ffd77c;
+      --danger:#ff9bb4;
+      --input:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       min-height:100vh;
+      font-family:"Sora","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 18%, rgba(107,182,255,.58), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(127,234,197,.52), transparent 26%),
+        radial-gradient(circle at 72% 82%, rgba(255,214,122,.48), transparent 28%),
+        linear-gradient(145deg, #edf8ff 0%, #f4fff6 48%, #fff8de 100%);
       display:grid;
       place-items:center;
-      color:var(--text);
-      font-family:"Nunito","Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
-      background:
-        radial-gradient(1000px 580px at 8% -12%, color-mix(in oklab, var(--accent) 28%, transparent), transparent 60%),
-        radial-gradient(760px 440px at 96% 0%, color-mix(in oklab, var(--accent2) 24%, transparent), transparent 58%),
-        linear-gradient(180deg,var(--bg2),var(--bg));
-      padding:18px;
+      padding:24px;
+      overflow-x:hidden;
     }
+    html[data-theme="dark"] body{
+      background:
+        radial-gradient(circle at 10% 18%, rgba(73,123,214,.45), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(44,124,104,.42), transparent 26%),
+        radial-gradient(circle at 72% 82%, rgba(152,114,40,.36), transparent 28%),
+        linear-gradient(145deg, #111a2f 0%, #15233b 48%, #1d2d40 100%);
+    }
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      inset:auto;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      filter:blur(36px);
+      opacity:.48;
+      pointer-events:none;
+      z-index:0;
+    }
+    body::before{left:-90px;top:-80px;background:rgba(134,193,255,.34)}
+    body::after{right:-70px;bottom:-100px;background:rgba(255,218,136,.28)}
+
     .layout{
-      width:min(980px,100%);
+      position:relative;
+      z-index:1;
+      width:min(1180px,100%);
       display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:14px;
+      grid-template-columns:1.08fr .92fr;
+      gap:22px;
       align-items:stretch;
     }
-    .learn-panel,.card{
+    .glass{
       border:1px solid var(--line);
-      background:linear-gradient(165deg, color-mix(in oklab,var(--panel) 70%, var(--card)) 0%, var(--card) 100%);
-      border-radius:20px;
+      background:var(--panel);
+      backdrop-filter:blur(26px);
+      -webkit-backdrop-filter:blur(26px);
       box-shadow:var(--shadow);
-      transition:transform .22s ease, box-shadow .22s ease, border-color .2s ease;
     }
-    @media (hover:hover){
-      .learn-panel:hover,.card:hover{transform:translateY(-3px) scale(1.01);box-shadow:0 28px 66px rgba(4,10,25,.5);border-color:color-mix(in oklab,var(--accent) 45%,var(--line))}
+
+    .showcase{
+      border-radius:34px;
+      padding:34px;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:640px;
     }
-    .learn-panel{padding:20px;display:flex;flex-direction:column;justify-content:space-between}
-    .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);font-weight:800}
-    .learn-panel h2{margin:8px 0 0;font-size:28px;line-height:1.2}
-    .learn-panel p{margin:10px 0 0;color:var(--muted);line-height:1.6}
+    .showcase::before{
+      content:"";
+      position:absolute;
+      inset:24px auto auto 24px;
+      width:180px;
+      height:180px;
+      border-radius:36px;
+      background:linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.12));
+      opacity:.4;
+      filter:blur(4px);
+      transform:rotate(-12deg);
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.36);
+      border:1px solid rgba(255,255,255,.45);
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .eyebrow::before{content:"✦"; color:var(--accent)}
+    .hero-copy{position:relative; z-index:1; max-width:580px}
+    .hero-copy h1{
+      margin:18px 0 0;
+      font-family:"Fraunces","Noto Serif CJK SC","Songti SC",serif;
+      font-size:clamp(40px,4.6vw,68px);
+      line-height:1.02;
+      letter-spacing:-.03em;
+      font-weight:700;
+    }
+    .hero-copy p{
+      margin:18px 0 0;
+      max-width:520px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.9;
+    }
+    .pill-row{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+    .pill{
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.28);
+      border:1px solid rgba(255,255,255,.42);
+      font-size:12px;
+      font-weight:700;
+      color:var(--text);
+      box-shadow:0 8px 18px rgba(255,255,255,.08) inset;
+    }
 
-    .pill-row{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
-    .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;background:color-mix(in oklab, var(--card) 82%, transparent);transition:transform .18s ease,border-color .18s ease}
-    @media (hover:hover){.pill:hover{transform:translateY(-1px) scale(1.04);border-color:color-mix(in oklab,var(--accent2) 52%,var(--line))}}
+    .dashboard{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      margin-top:26px;
+      position:relative;
+      z-index:1;
+    }
+    .dash-card{
+      padding:16px;
+      border-radius:22px;
+      background:rgba(255,255,255,.26);
+      border:1px solid rgba(255,255,255,.42);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+    }
+    .dash-k{font-size:12px;color:var(--muted);font-weight:600}
+    .dash-v{margin-top:10px;font-size:20px;font-weight:800;letter-spacing:-.03em}
 
-    .mini-grid{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .mini{padding:10px;border-radius:12px;border:1px solid var(--line);background:color-mix(in oklab, var(--card) 86%, transparent)}
-    .mini .k{font-size:11px;color:var(--muted)}
-    .mini .v{margin-top:4px;font-weight:700}
+    .icon-deck{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      margin-top:28px;
+      position:relative;
+      z-index:1;
+    }
+    .icon-tile{
+      min-height:144px;
+      border-radius:28px;
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,.2));
+      border:1px solid rgba(255,255,255,.46);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.55), 0 18px 32px rgba(115,134,173,.16);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      transform-style:preserve-3d;
+      transition:transform .28s ease, box-shadow .28s ease;
+    }
+    .icon-tile:hover{transform:translateY(-6px) rotateX(8deg) rotateY(-8deg); box-shadow:inset 0 1px 0 rgba(255,255,255,.58), 0 24px 38px rgba(115,134,173,.2)}
+    .icon-bubble{
+      width:64px;height:64px;border-radius:22px;display:grid;place-items:center;font-size:32px;
+      background:linear-gradient(145deg, rgba(255,255,255,.9), rgba(255,255,255,.32));
+      box-shadow:0 14px 24px rgba(115,134,173,.18);
+    }
+    .icon-label{font-size:13px;font-weight:700}
+    .icon-note{font-size:12px;color:var(--muted);line-height:1.6}
 
-    .card{padding:22px}
-    h1{margin:0;font-size:26px;font-family:"Merriweather","Noto Serif CJK SC","Songti SC",serif;letter-spacing:.01em}
-    .sub{color:var(--muted);font-size:13px;line-height:1.5;margin-top:8px}
+    .card{
+      border-radius:34px;
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      min-height:640px;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      width:220px;height:220px;border-radius:50%;
+      right:-70px;top:-70px;
+      background:radial-gradient(circle, rgba(126,204,176,.32), transparent 68%);
+      pointer-events:none;
+    }
+    .card-top{position:relative;z-index:1}
+    .card-kicker{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 14px;border-radius:999px;
+      background:rgba(255,255,255,.3);
+      border:1px solid rgba(255,255,255,.4);
+      font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    }
+    .card h2{
+      margin:18px 0 0;
+      font-family:"Fraunces","Noto Serif CJK SC","Songti SC",serif;
+      font-size:clamp(30px,3.6vw,46px);
+      line-height:1.08;
+      letter-spacing:-.03em;
+    }
+    .sub{margin-top:14px;color:var(--muted);font-size:14px;line-height:1.85}
 
-    .field{margin-top:14px}
-    .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field{margin-top:18px;position:relative;z-index:1}
+    .label{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.08em;text-transform:uppercase}
     input{
       width:100%;
-      padding:12px 13px;
-      border:1px solid var(--line);
-      background:color-mix(in oklab,var(--panel) 70%, transparent);
+      border:1px solid rgba(255,255,255,.52);
+      background:var(--input);
       color:var(--text);
-      border-radius:12px;
+      border-radius:18px;
+      padding:16px 18px;
+      font-family:inherit;
       font-size:15px;
+      outline:none;
+      transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease, background .2s ease;
     }
-    input:focus{outline:none;border-color:color-mix(in oklab,var(--accent) 60%, var(--line));box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%, transparent)}
-
+    input:focus{
+      transform:translateY(-1px);
+      border-color:rgba(93,142,255,.64);
+      box-shadow:0 0 0 4px rgba(93,142,255,.14);
+      background:rgba(255,255,255,.9);
+    }
+    html[data-theme="dark"] input:focus{background:rgba(255,255,255,.12)}
     .btn{
       width:100%;
-      margin-top:14px;
-      padding:12px;
+      margin-top:18px;
       border:0;
-      border-radius:12px;
-      background:linear-gradient(130deg,var(--accent),color-mix(in oklab,var(--accent2) 55%, var(--accent)));
-      color:#fff;
+      border-radius:18px;
+      padding:16px 18px;
+      font-family:inherit;
+      font-size:15px;
       font-weight:800;
-      letter-spacing:.02em;
+      letter-spacing:.01em;
+      color:#fff;
       cursor:pointer;
+      background:linear-gradient(135deg, var(--accent), var(--accent2) 58%, var(--accent3));
+      box-shadow:0 18px 28px rgba(102,141,221,.24);
+      transition:transform .18s ease, filter .18s ease, box-shadow .18s ease;
     }
-    .btn:hover{filter:brightness(1.05)}
+    .btn:hover{transform:translateY(-2px);filter:brightness(1.02);box-shadow:0 22px 34px rgba(102,141,221,.28)}
+    .btn:active{transform:translateY(0) scale(.988)}
+    .err{margin-top:12px;color:var(--danger);font-size:13px;line-height:1.7}
 
-    .err{margin-top:10px;color:var(--danger);font-size:13px}
-    .theme{margin-top:12px;display:flex;justify-content:flex-end}
-    .theme button{width:auto;margin:0;padding:8px 11px;border-radius:10px;background:transparent;color:var(--text);border:1px solid var(--line);cursor:pointer}
+    .helper-row{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
+    }
+    .helper{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+      max-width:280px;
+    }
+    .theme button{
+      width:auto;
+      border-radius:999px;
+      padding:10px 14px;
+      border:1px solid rgba(255,255,255,.46);
+      background:rgba(255,255,255,.26);
+      color:var(--text);
+      font:inherit;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .theme button:hover{transform:translateY(-1px);background:rgba(255,255,255,.36);border-color:rgba(255,255,255,.62)}
 
-    @media (max-width:880px){
+    @media (max-width:980px){
       .layout{grid-template-columns:1fr}
-      .learn-panel{order:2}
+      .showcase,.card{min-height:auto}
+      .showcase{order:2}
+    }
+    @media (max-width:640px){
+      body{padding:14px}
+      .showcase,.card{padding:22px;border-radius:28px}
+      .dashboard,.icon-deck{grid-template-columns:1fr}
+      .hero-copy h1{font-size:40px}
     }
   </style>
 </head>
 <body>
   <div class="layout">
-    <section class="learn-panel">
-      <div>
-        <div class="eyebrow">English training zone</div>
-        <h2>每天 60 分钟，
-          让英语从“会看”变成“会说”。</h2>
-        <p>听力输入 + 句型卡 + 强制开口 + 对话实战 + 错误复盘。每天完成 5 项，建立稳定输出肌肉记忆。</p>
+    <section class="showcase glass">
+      <div class="hero-copy">
+        <div class="eyebrow">English Learning Studio</div>
+        <h1>Make everyday English feel bright, clear, and speakable.</h1>
+        <p>听力输入、词汇卡、句型练习、强制开口、进度打卡放进同一个轻盈面板里。少一点压迫感，多一点能坚持的节奏。</p>
         <div class="pill-row">
-          <span class="pill">Vocabulary</span>
-          <span class="pill">Shadowing</span>
+          <span class="pill">Vocabulary Cards</span>
+          <span class="pill">Progress Dashboard</span>
           <span class="pill">Speaking Drill</span>
           <span class="pill">Daily Check-in</span>
         </div>
+
+        <div class="dashboard">
+          <div class="dash-card">
+            <div class="dash-k">Daily rhythm</div>
+            <div class="dash-v">5-step flow</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-k">Practice mode</div>
+            <div class="dash-v">Listen · Speak</div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-k">Mood</div>
+            <div class="dash-v">Soft & focused</div>
+          </div>
+        </div>
       </div>
-      <div class="mini-grid">
-        <div class="mini"><div class="k">Word of the day</div><div class="v">Consistency</div></div>
-        <div class="mini"><div class="k">Phrase</div><div class="v">Keep it going.</div></div>
-        <div class="mini"><div class="k">Goal</div><div class="v">Speak for 2+ mins</div></div>
-        <div class="mini"><div class="k">Mindset</div><div class="v">Small steps, daily wins</div></div>
+
+      <div class="icon-deck">
+        <div class="icon-tile">
+          <div class="icon-bubble">📚</div>
+          <div>
+            <div class="icon-label">Word Builder</div>
+            <div class="icon-note">把碎词变成能用的词组和表达。</div>
+          </div>
+        </div>
+        <div class="icon-tile">
+          <div class="icon-bubble">🎧</div>
+          <div>
+            <div class="icon-label">Listening Focus</div>
+            <div class="icon-note">每天一条新素材，输入更稳定。</div>
+          </div>
+        </div>
+        <div class="icon-tile">
+          <div class="icon-bubble">🗣️</div>
+          <div>
+            <div class="icon-label">Speak Out</div>
+            <div class="icon-note">开口录音，逼自己输出完整句子。</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <form class="card" method="post" action="/login">
-      <h1>手机号登录</h1>
-      <div class="sub">输入白名单手机号进入训练面板。<br/>欢迎回来，继续今天的 English mission ✨</div>
+    <form class="card glass" method="post" action="/login">
+      <div class="card-top">
+        <div class="card-kicker">Member login</div>
+        <h2>回到你的 English mission</h2>
+        <div class="sub">输入白名单手机号，直接进入今天的学习面板。默认是更轻快的 pastel glass 风格，也可以一键切暗色。</div>
+      </div>
 
       <div class="field">
         <div class="label">Phone Number</div>
@@ -152,17 +403,22 @@
 
       <button class="btn" type="submit">进入训练台</button>
       {% if error %}<div class="err">{{ error }}</div>{% endif %}
-      <div class="theme"><button id="themeBtn" type="button">🌙 暗色模式</button></div>
+
+      <div class="helper-row">
+        <div class="helper">今天从听力、句型卡、强制开口开始。目标不是一次学很多，而是每天都能继续。</div>
+        <div class="theme"><button id="themeBtn" type="button">🌙 切到暗色</button></div>
+      </div>
     </form>
   </div>
 <script>
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('lc_theme', theme);
-  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌞 明亮模式' : '🌙 暗色模式';
+  document.getElementById('themeBtn').textContent = theme === 'light' ? '🌙 切到暗色' : '🌞 切到明亮';
 }
-const t = localStorage.getItem('lc_theme') || 'dark'; applyTheme(t);
-document.getElementById('themeBtn').onclick = ()=> applyTheme((document.documentElement.getAttribute('data-theme')||'dark')==='dark'?'light':'dark');
+const t = localStorage.getItem('lc_theme') || 'light';
+applyTheme(t);
+document.getElementById('themeBtn').onclick = ()=> applyTheme((document.documentElement.getAttribute('data-theme')||'light')==='dark'?'light':'dark');
 </script>
 </body>
 </html>
