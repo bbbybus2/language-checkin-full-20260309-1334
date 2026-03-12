@@ -21,3 +21,7 @@ recordings/*
 .DS_Store
 *.swp
 *.swo
+
+# Local template backups / scratch files
+templates/*.bak
+templates/index_head.html
